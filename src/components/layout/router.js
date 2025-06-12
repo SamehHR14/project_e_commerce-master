@@ -1,15 +1,17 @@
-import { Outlet } from "react-router-dom"; 
+import { Outlet } from "react-router-dom";
 import { Box, LinearProgress } from "@mui/material";
-import { createBrowserRouter } from 'react-router-dom'; 
-import { lazy,Suspense } from "react";
-import Header from "../header"
+import { createBrowserRouter } from 'react-router-dom';
+import { lazy, Suspense } from "react";
+import Header from "../header";
+import Footer from "../footer";
 
 // Lazily load pages
-const HomePages = lazy(() => import("../../pages/home/index")); 
-//const ProductsPages = lazy(() => import("template/pulse_template/pages/products/index")); 
-//const SignInPage = lazy(() => import("template/global/pages/signIn/page")); 
-const PrivateRoute = lazy(() => import("./private/index")); 
- 
+const HomePages = lazy(() => import("../../pages/home/index"));
+const ContactPages = lazy(() => import("../../pages/contact/index"));
+//const ProductsPages = lazy(() => import("template/pulse_template/pages/products/index"));
+//const SignInPage = lazy(() => import("template/global/pages/signIn/page"));
+const PrivateRoute = lazy(() => import("./private/index"));
+
 /**
  * Layout component that includes a fixed header and an outlet for rendering child routes.
  *
@@ -18,19 +20,10 @@ const PrivateRoute = lazy(() => import("./private/index"));
 const Layout = () => {
   return (
     <>
-      <Header/>
-
-      <Box sx={{
-        marginTop:"64px"
-
-      }}>
-         
-         <Outlet/>
-
-        </Box>
-
-     
-
+      <Header />
+      <Box sx={{ marginTop: "64px" }}>
+        <Outlet />
+      </Box>
     </>
   );
 };
@@ -38,8 +31,6 @@ const Layout = () => {
 /**
  * Defines the application routing structure.
  * Includes public routes for home, products, and login, as well as a private route wrapper for secure pages.
- *
- *
  */
 export const router = createBrowserRouter([
   {
@@ -47,30 +38,34 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element:<Suspense fallback={<LinearProgress color="inherit" />}> <HomePages /> </Suspense>,
-      }, 
+        element: <Suspense fallback={<LinearProgress color="inherit" />}> <HomePages /> </Suspense>,
+      },
       {
-        path: '/page/products',
-       // element:<Suspense fallback={<LinearProgress color="inherit" />}>  <ProductsPages /> </Suspense>,
+        path: '/contact', // Unique path for the contact page
+        element: <Suspense fallback={<LinearProgress color="inherit" />}> <ContactPages /> </Suspense>,
+      },
+      {
+        path: '/page/produit',
+        //element: <Suspense fallback={<LinearProgress color="inherit" />}> <ProduitPages /> </Suspense>,
       },
       {
         path: '/page/signIn',
-       // element:<Suspense fallback={<LinearProgress color="inherit" />}>  <SignInPage /></Suspense>,
+        // element: <Suspense fallback={<LinearProgress color="inherit" />}> <SignInPage /> </Suspense>,
       },
       {
         // Wrapper for private routes
-        element:  <PrivateRoute /> ,
+        element: <PrivateRoute />,
         children: [
           /**
            * Add private routes here.
-           * Example: 
+           * Example:
            * {
            *   path: '/myAccount',
-           *   element:<Suspense fallback={<>Account page loading ......... </>}> <Account /></Suspense>,
+           *   element: <Suspense fallback={<>Account page loading ......... </>}> <Account /> </Suspense>,
            * },
            */
         ],
-      }, 
+      },
     ],
   },
 ]);

@@ -14,9 +14,20 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
+
+
 
 const drawerWidth = 240;
-const navItems = ['Home', 'About', 'Contact'];
+
+// Liste des éléments de navigation avec leurs chemins
+const navItems = [
+  { label: 'Acceuil', path: '/' },
+  { label: 'Produit', path: '/produit' },
+  { label: 'Nouveautés', path: '/nouveautes' },
+  { label: 'A propos', path: '/a-propos' },
+  { label: 'Contact', path: '/contact' }
+];
 
 function DrawerAppBar(props) {
   const { window } = props;
@@ -26,17 +37,26 @@ function DrawerAppBar(props) {
     setMobileOpen((prevState) => !prevState);
   };
 
+  // Menu mobile
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+    <Box
+      onClick={handleDrawerToggle}
+      sx={{
+        textAlign: 'center',
+        backgroundColor: '#F5F5DC',
+        height: '100%',
+        color: '#4E342E',
+      }}
+    >
+      <Typography variant="h6" sx={{ my: 2, fontWeight: 'bold' }}>
+        NTBM
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} />
+        {navItems.map(({ label, path }) => (
+          <ListItem key={label} disablePadding>
+            <ListItemButton component={Link} to={path} sx={{ textAlign: 'center' }}>
+              <ListItemText primary={label} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -49,63 +69,82 @@ function DrawerAppBar(props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav">
+      <AppBar component="nav" sx={{ backgroundColor: '#F5F5DC', boxShadow: 'none' }}>
         <Toolbar>
+          {/* Icône du menu (visible en mobile) */}
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, display: { sm: 'none' }, color: '#4E342E' }}
           >
             <MenuIcon />
           </IconButton>
+
+          {/* Logo texte */}
           <Typography
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            sx={{
+              fontWeight: 'bold',
+              color: '#4E342E',
+              display: { xs: 'none', sm: 'block' }
+            }}
           >
-            MUI
+            NTBM
           </Typography>
+
+          {/* Espace flexible */}
+          <Box sx={{ flexGrow: 1 }} />
+
+          {/* Boutons de navigation (desktop) */}
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {navItems.map((item) => (
-              <Button key={item} sx={{ color: '#fff' }}>
-                {item}
+            {navItems.map(({ label, path }) => (
+              <Button
+                key={label}
+                component={Link}
+                to={path}
+                sx={{
+                  color: '#4E342E',
+                  '&:hover': {
+                    backgroundColor: '#EFE5D0'
+                  }
+                }}
+              >
+                {label}
               </Button>
             ))}
           </Box>
         </Toolbar>
       </AppBar>
+
+      {/* Drawer mobile */}
       <nav>
         <Drawer
           container={container}
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
+          ModalProps={{ keepMounted: true }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+              backgroundColor: '#F5F5DC',
+              color: '#4E342E'
+            },
           }}
         >
           {drawer}
         </Drawer>
       </nav>
-    
-     
-      
-     
     </Box>
   );
 }
 
 DrawerAppBar.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   window: PropTypes.func,
 };
 
