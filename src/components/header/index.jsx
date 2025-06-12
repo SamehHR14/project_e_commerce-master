@@ -16,9 +16,21 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
-
+import logo from '../../images/logo.png'; 
 
 const drawerWidth = 240;
+
+const styledLink = {
+  textDecoration: 'none',
+  fontWeight:700,
+  textTransform: 'Capitalize', // Pas de majuscules
+  backgroundColor: 'transparent', // Pas de fond au survol
+  color: '#4E342E', // Couleur du texte
+  '&:hover': {
+    backgroundColor:'transparent !important', // Pas de fond au survol
+    textDecoration: 'underline !important', // Soulignement au survol
+  },
+};
 
 // Liste des éléments de navigation avec leurs chemins
 const navItems = [
@@ -55,7 +67,7 @@ function DrawerAppBar(props) {
       <List>
         {navItems.map(({ label, path }) => (
           <ListItem key={label} disablePadding>
-            <ListItemButton component={Link} to={path} sx={{ textAlign: 'center' }}>
+            <ListItemButton component={Link} to={path} sx={{ textAlign: 'center', ...styledLink }}>
               <ListItemText primary={label} />
             </ListItemButton>
           </ListItem>
@@ -67,9 +79,10 @@ function DrawerAppBar(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex',position: 'relative'}}>
       <CssBaseline />
-      <AppBar component="nav" sx={{ backgroundColor: '#F5F5DC', boxShadow: 'none' }}>
+      <AppBar component="nav" sx={{ backgroundColor: '#d9d7d2', boxShadow: 'none' }}>
+ 
         <Toolbar>
           {/* Icône du menu (visible en mobile) */}
           <IconButton
@@ -83,17 +96,13 @@ function DrawerAppBar(props) {
           </IconButton>
 
           {/* Logo texte */}
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{
-              fontWeight: 'bold',
-              color: '#4E342E',
-              display: { xs: 'none', sm: 'block' }
-            }}
-          >
-            NTBM
-          </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+          <img
+            src={logo}
+            alt="Logo NTBM"
+            style={{ maxWidth: '100%', height: '50px', marginRight: '10px' }}
+          /></Box>
+        
 
           {/* Espace flexible */}
           <Box sx={{ flexGrow: 1 }} />
@@ -105,13 +114,8 @@ function DrawerAppBar(props) {
                 key={label}
                 component={Link}
                 to={path}
-                sx={{
-                  color: '#4E342E',
-                  '&:hover': {
-                    backgroundColor: '#EFE5D0'
-                  }
-                }}
-              >
+                sx={styledLink}
+              > 
                 {label}
               </Button>
             ))}

@@ -1,17 +1,23 @@
 import { Box, Typography, Button, Container, Grid, Card, CardMedia, CardContent } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import MySwiper from 'components/swiperSlide/index';
 import { memo } from 'react'; // Pas besoin de useState si les boutons sont toujours visibles
 import { Link as RouterLink } from 'react-router-dom'; // Importez RouterLink pour la navigation
-
+// Importez l'image de la bannière
+import tv from '../../images/tv.png';
+import table from '../../images/table.jpeg';
+import buffet from '../../images/buffet.jpeg';
+import bed from '../../images/bed.jpeg';
+import table2 from '../../images/table2.jpeg'; // Assurez-vous que le chemin de l'image est correct
 const bannerImage = "/assets/home.webp"; // Assurez-vous que le chemin de l'image est correct.
 
 // Mettez à jour vos catégories avec des chemins React Router cohérents
-const categories = [
-  { title: 'Meubles TV', image: '/images/tv.jpg', path: '/categories/meubles-tv' },
-  { title: 'Tables basses', image: '/images/table.jpg', path: '/categories/tables-basses' },
-  { title: 'Buffets', image: '/images/buffet.jpg', path: '/categories/buffets' },
-  { title: 'Lits', image: '/images/bed.jpg', path: '/categories/lits' },
-  { title: 'Cabinet Médical', image: '/assets/table.jpg', path: '/categories/cabinet-medical' }, // Renommé pour la lisibilité
+const allProducts = [
+  { title: 'Meubles TV', image: tv, path: '/categories/meubles-tv' },
+  { title: 'Tables basses', image: table, path: '/categories/tables-basses' },
+  { title: 'Buffets', image: buffet, path: '/categories/buffets' },
+  { title: 'Lits', image: bed, path: '/categories/lits' },
+  { title: 'Cabinet Médical', image: table2, path: '/categories/cabinet-medical' }, // Renommé pour la lisibilité
 ];
 
 // Le composant stylisé pour la bannière qui s'étend sur toute la largeur
@@ -66,8 +72,18 @@ const HomePages = () => {
           Des meubles imaginés et conçus pour vous accompagner longtemps
         </Typography>
         <Grid container spacing={4} justifyContent="center">
-          {categories.map((category, index) => (
-            <Grid item xs={12} sm={6} md={2} key={index}> {/* Utilisation de md={2} pour 6 colonnes par ligne */}
+       <MySwiper allProducts={allProducts} />
+        </Grid>
+      </Container>
+    </Box>
+  );
+};
+
+export default memo(HomePages);
+
+/**
+ *    {categories.map((category, index) => (
+            <Grid item xs={12} sm={6} md={2} key={index}>  
               <Card sx={{
                 borderRadius: 0,
                 boxShadow: 0,
@@ -89,8 +105,7 @@ const HomePages = () => {
                 <CardContent sx={{ p: 2, textAlign: 'center', pt: 0, pb: 1, flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                   <Typography variant="h6" sx={{ color: '#000', fontWeight: 600, mb: 1, fontSize: '1.2rem' }}>
                     {category.title}
-                  </Typography>
-                  {/* Le bouton "Découvrir" est maintenant toujours visible */}
+                  </Typography> 
                   <Button
                     variant="contained"
                     component={RouterLink} // Utilise RouterLink pour la navigation
@@ -110,10 +125,4 @@ const HomePages = () => {
               </Card>
             </Grid>
           ))}
-        </Grid>
-      </Container>
-    </Box>
-  );
-};
-
-export default memo(HomePages);
+ */
