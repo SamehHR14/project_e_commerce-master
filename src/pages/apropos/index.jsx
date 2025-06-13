@@ -71,7 +71,7 @@ function About() {
         <Typography
           variant="h2"
           align="center"
-          sx={{ fontSize: '2rem', fontWeight: 'bold', color: '#e59866', mb: 4 }}
+          sx={{ fontSize: '2rem', fontWeight: 'bold', color: '#4E342E', mb: 4 }}
         >
           A PROPOS
         </Typography>
@@ -79,13 +79,13 @@ function About() {
           <Typography
             variant="body1"
             align="center"
-            sx={{ fontSize: { xs: '1rem', md: '1.25rem' }, color: '#424242', mb: 4 }}
+            sx={{ fontSize: { xs: '1rem', md: '1.25rem' }, color: '#4E342E', mb: 4 }}
           >
             La société NTBM (Nouvelles Techniques de Bois et de Métaux), basée à Sfax, est spécialisée dans la conception de cuisines sur mesure et l’agencement d’espaces intérieurs. Forte de son savoir-faire, NTBM propose des solutions personnalisées alliant bois et métal pour les particuliers et les professionnels.
           </Typography>
           <Grid container spacing={4} sx={{ mt: 4, justifyContent: 'center' }}>
             <Grid item xs={12} md={4} textAlign="center">
-              <Typography variant="h3" sx={{ fontSize: '3rem', color: '#e59866', fontWeight: 'bold' }}>
+              <Typography variant="h3" sx={{ fontSize: '3rem', color: '#d9a69a', fontWeight: 'bold' }}>
                 7+
               </Typography>
               <Typography variant="subtitle2" sx={{ mt: 1 }}>
@@ -93,7 +93,7 @@ function About() {
               </Typography>
             </Grid>
             <Grid item xs={12} md={4} textAlign="center">
-              <Typography variant="h3" sx={{ fontSize: '3rem', color: '#e59866', fontWeight: 'bold' }}>
+              <Typography variant="h3" sx={{ fontSize: '3rem', color: '#d9a69a', fontWeight: 'bold' }}>
                 150+
               </Typography>
               <Typography variant="subtitle2" sx={{ mt: 1 }}>
@@ -101,7 +101,7 @@ function About() {
               </Typography>
             </Grid>
             <Grid item xs={12} md={4} textAlign="center">
-              <Typography variant="h3" sx={{ fontSize: '3rem', color: '#e59866', fontWeight: 'bold' }}>
+              <Typography variant="h3" sx={{ fontSize: '3rem', color: '#d9a69a', fontWeight: 'bold' }}>
                 Satisfait
               </Typography>
               <Typography variant="subtitle2" sx={{ mt: 1 }}>

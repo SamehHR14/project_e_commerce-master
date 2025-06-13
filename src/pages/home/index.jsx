@@ -1,78 +1,175 @@
-import { Box, Typography, Button, Container, Grid, Card, CardMedia, CardContent } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Container,
+  Grid,
+  Button
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
-import MySwiper from 'components/swiperSlide/index';
-import { memo } from 'react'; // Pas besoin de useState si les boutons sont toujours visibles
-import { Link as RouterLink } from 'react-router-dom'; // Importez RouterLink pour la navigation
-// Importez l'image de la bannière
-import tv from '../../images/tv.png';
-import table from '../../images/table.jpeg';
-import buffet from '../../images/buffet.jpeg';
-import bed from '../../images/bed.jpeg';
-import table2 from '../../images/table2.jpeg'; // Assurez-vous que le chemin de l'image est correct
-const bannerImage = "/assets/home.webp"; // Assurez-vous que le chemin de l'image est correct.
+import { memo } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 
-// Mettez à jour vos catégories avec des chemins React Router cohérents
+// Images
+import tv from '../../images/tv5.jpeg';
+import table from '../../images/mur61.png';
+import buffet from '../../images/boutique3.png';
+import bed from '../../images/cuisine1.png';
+import table2 from '../../images/table2.jpeg';
+import cabinetDentaire1 from '../../images/cabinetDentaire1.jpg';
+
+const bannerImage = "/assets/home.webp";
+
+// Produits
 const allProducts = [
   { title: 'Meubles TV', image: tv, path: '/categories/meubles-tv' },
-  { title: 'Tables basses', image: table, path: '/categories/tables-basses' },
-  { title: 'Buffets', image: buffet, path: '/categories/buffets' },
-  { title: 'Lits', image: bed, path: '/categories/lits' },
-  { title: 'Cabinet Médical', image: table2, path: '/categories/cabinet-medical' }, // Renommé pour la lisibilité
+  { title: 'Revêtement mural', image: table, path: '/categories/revetement-mural' },
+  { title: 'Aménagement boutique', image: buffet, path: '/categories/amenagement-boutique' },
+  { title: 'Cuisine', image: bed, path: '/categories/cuisine' },
+  { title: 'Cabinet Médical', image: table2, path: '/categories/cabinet-medical' },
+  { title: 'Cabinet Dentaire', image: cabinetDentaire1, path: '/categories/cabinet-dentaire' },
 ];
 
-// Le composant stylisé pour la bannière qui s'étend sur toute la largeur
-
-const FullWidthBanner = styled(Box)(({ theme }) => ({
-  width: '100vw', // Ensure it takes the full viewport width
-  height: '76vh', // Full viewport height
+// Bannière
+const FullWidthBanner = styled(Box)({
+  width: '100vw',
+  height: '76vh',
   backgroundImage: `url(${bannerImage})`,
-  backgroundSize: 'cover',       // Ensures the image covers the entire area
-  backgroundPosition: 'center',  // Centers the image
-  backgroundRepeat: 'no-repeat', // Prevents image repetition
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   color: '#fff',
-  // Add this to remove any default margin or padding from the body
-  margin: 0,
-  padding: 0,
-  // Ensure it overrides any parent container constraints
   position: 'relative',
   left: '50%',
-  right: '50%',
   marginLeft: '-50vw',
-  marginRight: '-50vw',
-}));
+});
 
 const HomePages = () => {
-  // Suppression de showButtons et handleImageClick car le bouton sera toujours visible
-  // const [showButtons, setShowButtons] = useState({});
-  // const handleImageClick = (index) => { ... };
-
   return (
     <Box>
+      {/* Bannière principale */}
       <FullWidthBanner>
-        <Box sx={{
-          backgroundColor: 'rgba(0,0,0,0.5)',
-          p: 4,
-          borderRadius: 2,
-          textAlign: 'center',
-        }}>
+        <Box sx={{ p: 4, borderRadius: 2, textAlign: 'left' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2 }}>
             NTBM
           </Typography>
         </Box>
       </FullWidthBanner>
 
+      {/* Section Catégories */}
       <Container sx={{ py: 8 }}>
-        <Typography variant="h5" sx={{ mb: 2, textAlign: 'center', color: '#000', fontSize: '1.75rem', fontWeight: 700 }}>
+        <Typography
+          variant="h5"
+          sx={{
+            mb: 2,
+            textAlign: 'center',
+            color: '#000',
+            fontSize: '1.75rem',
+            fontWeight: 700,
+            fontStyle: 'italic',
+            animation: 'fadeInDown 1s ease-out',
+          }}
+        >
           Les Catégories
         </Typography>
-        <Typography variant="subtitle1" sx={{ mb: 6, textAlign: 'center', color: '#666', fontSize: '1.1rem', maxWidth: '600px', mx: 'auto', lineHeight: 1.6 }}>
+
+        <Typography
+          variant="subtitle1"
+          sx={{
+            mb: 6,
+            textAlign: 'center',
+            color: '#666',
+            fontSize: '1.1rem',
+            maxWidth: '600px',
+            mx: 'auto',
+            lineHeight: 1.6,
+            fontStyle: 'italic',
+            animation: 'fadeInDown 1.2s ease-out',
+          }}
+        >
           Des meubles imaginés et conçus pour vous accompagner longtemps
         </Typography>
+
         <Grid container spacing={4} justifyContent="center">
-       <MySwiper allProducts={allProducts} />
+          {allProducts.map((product, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <Box
+                component={RouterLink}
+                to={product.path}
+                sx={{
+                  position: 'relative',
+                  display: 'block',
+                  height: 320,
+                  overflow: 'hidden',
+                  borderRadius: 3,
+                  boxShadow: 4,
+                  textDecoration: 'none',
+                  '&:hover .image': {
+                    transform: 'scale(1.1)',
+                  },
+                  '&:hover .overlay': {
+                    opacity: 1,
+                    transform: 'translateY(0)',
+                  },
+                }}
+              >
+                <Box
+                  className="image"
+                  sx={{
+                    backgroundImage: `url(${product.image})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    width: '100%',
+                    height: '100%',
+                    transition: 'transform 0.7s ease',
+                  }}
+                />
+                <Box
+                  className="overlay"
+                  sx={{
+                    position: 'absolute',
+                    bottom: 0,
+                    width: '100%',
+                    bgcolor: 'rgba(0,0,0,0.6)',
+                    color: 'white',
+                    p: 2,
+                    textAlign: 'center',
+                    opacity: 0,
+                    transform: 'translateY(20px)',
+                    transition: 'all 0.4s ease',
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: 600,
+                      fontStyle: 'italic',
+                      fontSize: '1.2rem',
+                      mb: 1,
+                    }}
+                  >
+                    {product.title}
+                  </Typography>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    sx={{
+                      color: '#fff',
+                      borderColor: '#fff',
+                      textTransform: 'none',
+                      fontSize: '0.875rem',
+                      '&:hover': {
+                        backgroundColor: 'rgba(255,255,255,0.1)',
+                      },
+                    }}
+                  >
+                    Découvrir
+                  </Button>
+                </Box>
+              </Box>
+            </Grid>
+          ))}
         </Grid>
       </Container>
     </Box>
@@ -80,49 +177,3 @@ const HomePages = () => {
 };
 
 export default memo(HomePages);
-
-/**
- *    {categories.map((category, index) => (
-            <Grid item xs={12} sm={6} md={2} key={index}>  
-              <Card sx={{
-                borderRadius: 0,
-                boxShadow: 0,
-                position: 'relative',
-                overflow: 'hidden',
-                backgroundColor: '#fff',
-                display: 'flex', // Utilise flex pour aligner le contenu de la carte
-                flexDirection: 'column',
-                height: '100%', // S'assure que toutes les cartes ont la même hauteur
-              }}>
-                <CardMedia
-                  component="img"
-                  height="300"
-                  image={category.image}
-                  alt={category.title}
-                  // onClick={() => handleImageClick(index)} // Supprimé
-                  style={{ cursor: 'pointer', objectFit: 'cover' }}
-                />
-                <CardContent sx={{ p: 2, textAlign: 'center', pt: 0, pb: 1, flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <Typography variant="h6" sx={{ color: '#000', fontWeight: 600, mb: 1, fontSize: '1.2rem' }}>
-                    {category.title}
-                  </Typography> 
-                  <Button
-                    variant="contained"
-                    component={RouterLink} // Utilise RouterLink pour la navigation
-                    to={category.path}    // Pointe vers le chemin de la catégorie
-                    sx={{
-                      backgroundColor: '#000',
-                      color: '#fff',
-                      textTransform: 'none',
-                      padding: '8px 24px',
-                      '&:hover': { backgroundColor: '#333' },
-                      mt: 'auto', // Pousse le bouton vers le bas de la CardContent
-                    }}
-                  >
-                    Découvrir
-                  </Button>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
- */
