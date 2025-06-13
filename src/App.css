@@ -24,6 +24,38 @@
   color: white;
 }
 
+ .App {
+  min-height: 100vh; /* Hauteur minimale de la fenêtre */
+  display: flex; /* Utilise flexbox */
+  flex-direction: column; /* Disposition verticale */
+  margin: 0; /* Supprime les marges */
+  padding: 0; /* Supprime les paddings */
+  width: 100%; /* Assure la pleine largeur */
+}
+
+.App {
+  margin: 0;
+  padding: 0;
+}
+
+.App > * {
+  flex: 1 0 auto; /* Permet au contenu de s'adapter */
+}
+
+footer {
+  margin-top: auto; /* Pousse le footer en bas */
+  width: 100%; /* S'étend sur toute la largeur */
+  padding: 0; /* Supprime le padding interne */
+  box-sizing: border-box; /* Inclut padding/border dans la largeur */
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+
 .App-link {
   color: #61dafb;
 }
@@ -35,4 +67,8 @@
   to {
     transform: rotate(360deg);
   }
+
+
+
+
 }

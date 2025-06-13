@@ -1,14 +1,10 @@
-import Root from  "./components/layout"
+import Root from './components/layout';
 import './App.css';
 
 function App() {
-  
   return (
-    <div className="App"> 
-   <Root/>
-
-   
-
+    <div className="App">
+      <Root />
     </div>
   );
 }

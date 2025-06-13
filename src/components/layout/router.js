@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { Box, LinearProgress } from "@mui/material";
+import { Box, LinearProgress, Container } from "@mui/material";
 import { createBrowserRouter } from 'react-router-dom';
 import { lazy, Suspense } from "react";
 import Header from "../header";
@@ -8,6 +8,7 @@ import Footer from "../footer";
 // Lazily load pages
 const HomePages = lazy(() => import("../../pages/home/index"));
 const ContactPages = lazy(() => import("../../pages/contact/index"));
+const Apropos = lazy(() => import("../../pages/apropos/index"));
 //const ProductsPages = lazy(() => import("template/pulse_template/pages/products/index"));
 //const SignInPage = lazy(() => import("template/global/pages/signIn/page"));
 const PrivateRoute = lazy(() => import("./private/index"));
@@ -19,12 +20,13 @@ const PrivateRoute = lazy(() => import("./private/index"));
  */
 const Layout = () => {
   return (
-    <>
+    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
-      <Box sx={{ marginTop: "64px" }}>
+      <Box sx={{ flex: '1 0 auto', marginTop: '64px' }}>
         <Outlet />
       </Box>
-    </>
+      <Footer />
+    </Box>
   );
 };
 
@@ -41,8 +43,13 @@ export const router = createBrowserRouter([
         element: <Suspense fallback={<LinearProgress color="inherit" />}> <HomePages /> </Suspense>,
       },
       {
-        path: '/contact', // Unique path for the contact page
+        path: '/contact',
         element: <Suspense fallback={<LinearProgress color="inherit" />}> <ContactPages /> </Suspense>,
+      },
+
+       {
+        path: '/a-propos',
+         element: <Suspense fallback={<LinearProgress color="inherit" />}> <Apropos /> </Suspense>,
       },
       {
         path: '/page/produit',
@@ -52,18 +59,12 @@ export const router = createBrowserRouter([
         path: '/page/signIn',
         // element: <Suspense fallback={<LinearProgress color="inherit" />}> <SignInPage /> </Suspense>,
       },
+
+      
       {
-        // Wrapper for private routes
         element: <PrivateRoute />,
         children: [
-          /**
-           * Add private routes here.
-           * Example:
-           * {
-           *   path: '/myAccount',
-           *   element: <Suspense fallback={<>Account page loading ......... </>}> <Account /> </Suspense>,
-           * },
-           */
+          /* Add private routes here */
         ],
       },
     ],
