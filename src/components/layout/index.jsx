@@ -13,9 +13,9 @@ import { router } from "./router";
  */
 const Layout = () => {
   return (
-    <Container>
+    
       <RouterProvider router={router} />
-    </Container>
+   
   );
 };
 

@@ -15,24 +15,10 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
-
 import logo from '../../images/logo.png'; 
 
 const drawerWidth = 240;
 
-const styledLink = {
-  textDecoration: 'none',
-  fontWeight:700,
-  textTransform: 'Capitalize', // Pas de majuscules
-  backgroundColor: 'transparent', // Pas de fond au survol
-  color: '#4E342E', // Couleur du texte
-  '&:hover': {
-    backgroundColor:'transparent !important', // Pas de fond au survol
-    textDecoration: 'underline !important', // Soulignement au survol
-  },
-};
-
-// Liste des éléments de navigation avec leurs chemins
 const navItems = [
   { label: 'Acceuil', path: '/' },
   { label: 'Produit', path: '/produit' },
@@ -40,6 +26,22 @@ const navItems = [
   { label: 'A propos', path: '/a-propos' },
   { label: 'Contact', path: '/contact' }
 ];
+
+// Style clair et élégant
+const styledLink = {
+  textDecoration: 'none',
+  fontWeight: 500,
+  fontStyle: 'italic',
+  textTransform: 'capitalize', // Majuscule uniquement sur la première lettre
+  fontFamily: 'Playfair Display, serif',
+  fontSize: '1rem',
+  color: '#5D4037', // Brun élégant
+  letterSpacing: '0.5px',
+  '&:hover': {
+    backgroundColor: 'transparent !important',
+    textDecoration: 'underline !important',
+  },
+};
 
 function DrawerAppBar(props) {
   const { window } = props;
@@ -49,15 +51,14 @@ function DrawerAppBar(props) {
     setMobileOpen((prevState) => !prevState);
   };
 
-  // Menu mobile
   const drawer = (
     <Box
       onClick={handleDrawerToggle}
       sx={{
         textAlign: 'center',
-        backgroundColor: '#F5F5DC',
+        backgroundColor: '#F2ECE4',
         height: '100%',
-        color: '#4E342E',
+        color: '#5D4037',
       }}
     >
       <Typography variant="h6" sx={{ my: 2, fontWeight: 'bold' }}>
@@ -79,35 +80,26 @@ function DrawerAppBar(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex',position: 'relative'}}>
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav" sx={{ backgroundColor: '#d9d7d2', boxShadow: 'none' }}>
- 
+      <AppBar component="nav" sx={{ backgroundColor: '#F9F7F1', boxShadow: 'none' }}>
         <Toolbar>
-          {/* Icône du menu (visible en mobile) */}
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' }, color: '#4E342E' }}
+            sx={{ mr: 2, display: { sm: 'none' }, color: '#5D4037' }}
           >
             <MenuIcon />
           </IconButton>
 
-          {/* Logo texte */}
-        <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
-          <img
-            src={logo}
-            alt="Logo NTBM"
-            style={{ maxWidth: '100%', height: '50px', marginRight: '10px' }}
-          /></Box>
-        
+          <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+            <img src={logo} alt="Logo NTBM" style={{ height: '50px', marginRight: '10px' }} />
+          </Box>
 
-          {/* Espace flexible */}
           <Box sx={{ flexGrow: 1 }} />
 
-          {/* Boutons de navigation (desktop) */}
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map(({ label, path }) => (
               <Button
@@ -115,7 +107,7 @@ function DrawerAppBar(props) {
                 component={Link}
                 to={path}
                 sx={styledLink}
-              > 
+              >
                 {label}
               </Button>
             ))}
@@ -123,7 +115,6 @@ function DrawerAppBar(props) {
         </Toolbar>
       </AppBar>
 
-      {/* Drawer mobile */}
       <nav>
         <Drawer
           container={container}
@@ -136,8 +127,8 @@ function DrawerAppBar(props) {
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: drawerWidth,
-              backgroundColor: '#F5F5DC',
-              color: '#4E342E'
+              backgroundColor: '#F2ECE4',
+              color: '#5D4037'
             },
           }}
         >

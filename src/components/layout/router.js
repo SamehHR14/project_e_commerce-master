@@ -20,13 +20,13 @@ const PrivateRoute = lazy(() => import("./private/index"));
  */
 const Layout = () => {
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+   <>
       <Header />
-      <Box sx={{ flex: '1 0 auto', marginTop: '64px' }}>
+      <Box sx={{ marginTop: "64px" }}>
         <Outlet />
       </Box>
       <Footer />
-    </Box>
+    </>
   );
 };
 
