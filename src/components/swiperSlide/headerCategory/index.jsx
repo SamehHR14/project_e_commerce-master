@@ -18,7 +18,7 @@ const categories = [
 
 
 
-export default function HeaderCategory() {
+export default function HeaderCategory({withoutTitle}) {
   return (
 <Box width={'100%'} 
 sx={{ 
@@ -74,7 +74,8 @@ sx={{
                   height: '100%',
     width: '100%',
          }}> 
-            <Box
+           
+          { !withoutTitle && <Box 
               sx={{
                 position: 'absolute',
                 bottom: 0,
@@ -87,7 +88,7 @@ sx={{
               }}
             >
               {category.title}
-            </Box>
+            </Box>}
          </Box>
          
       

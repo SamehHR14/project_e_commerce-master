@@ -9,8 +9,8 @@ import Footer from "../footer";
 const HomePages = lazy(() => import("../../pages/home/index"));
 const ContactPages = lazy(() => import("../../pages/contact/index"));
 const Apropos = lazy(() => import("../../pages/apropos/index"));
-//const ProductsPages = lazy(() => import("template/pulse_template/pages/products/index"));
-//const SignInPage = lazy(() => import("template/global/pages/signIn/page"));
+const Produits = lazy(() => import("../../pages/produits/index"));
+
 const PrivateRoute = lazy(() => import("./private/index"));
 
 /**
@@ -52,8 +52,8 @@ export const router = createBrowserRouter([
          element: <Suspense fallback={<LinearProgress color="inherit" />}> <Apropos /> </Suspense>,
       },
       {
-        path: '/page/produit',
-        //element: <Suspense fallback={<LinearProgress color="inherit" />}> <ProduitPages /> </Suspense>,
+        path: '/produit',
+        element: <Suspense fallback={<LinearProgress color="inherit" />}> <Produits /> </Suspense>,
       },
       {
         path: '/page/signIn',

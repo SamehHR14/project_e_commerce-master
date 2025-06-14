@@ -16,6 +16,7 @@ import buffet from '../../images/boutique3.png';
 import bed from '../../images/cuisine1.png';
 import table2 from '../../images/table2.jpeg';
 import cabinetDentaire1 from '../../images/cabinetDentaire1.jpg';
+import HeaderCategory from 'components/swiperSlide/headerCategory';
 
 const bannerImage = "/assets/home.webp";
 
@@ -48,14 +49,18 @@ const FullWidthBanner = styled(Box)({
 const HomePages = () => {
   return (
     <Box>
-      {/* Bannière principale */}
-      <FullWidthBanner>
-        <Box sx={{ p: 4, borderRadius: 2, textAlign: 'left' }}>
+      {/* Bannière principale 
+     <FullWidthBanner>
+  <Box sx={{ p: 4, borderRadius: 2, textAlign: 'left' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2 }}>
             NTBM
           </Typography>
         </Box>
       </FullWidthBanner>
+    */}
+
+
+     <HeaderCategory  withoutTitle/>
 
       {/* Section Catégories */}
       <Container sx={{ py: 8 }}>

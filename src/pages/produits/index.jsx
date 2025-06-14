@@ -38,7 +38,7 @@ const allProducts = [
   { title: 'Meubles TV', image: tv, path: '/categories/meubles-tv' },
   { title: 'Tables basses', image: table, path: '/categories/tables-basses' },
   { title: 'Buffets', image: buffet, path: '/categories/buffets' },
-  { title: 'Lits', image: bed, path: '/categories/lits' },
+ 
   { title: 'Cabinet Médical', image: table2, path: '/categories/cabinet-medical' },  
   { title: 'Meubles TV', image: tv, path: '/categories/meubles-tv' },
   { title: 'Tables basses', image: table, path: '/categories/tables-basses' },
@@ -48,22 +48,22 @@ const allProducts = [
   { title: 'Meubles TV', image: tv, path: '/categories/meubles-tv' },
   { title: 'Tables basses', image: table, path: '/categories/tables-basses' },
   { title: 'Buffets', image: buffet, path: '/categories/buffets' },
-  { title: 'Lits', image: bed, path: '/categories/lits' },
+
   { title: 'Cabinet Médical', image: table2, path: '/categories/cabinet-medical' },  
   { title: 'Meubles TV', image: tv, path: '/categories/meubles-tv' },
   { title: 'Tables basses', image: table, path: '/categories/tables-basses' },
   { title: 'Buffets', image: buffet, path: '/categories/buffets' },
-  { title: 'Lits', image: bed, path: '/categories/lits' },
+
   { title: 'Cabinet Médical', image: table2, path: '/categories/cabinet-medical' },  
   { title: 'Meubles TV', image: tv, path: '/categories/meubles-tv' },
   { title: 'Tables basses', image: table, path: '/categories/tables-basses' },
   { title: 'Buffets', image: buffet, path: '/categories/buffets' },
-  { title: 'Lits', image: bed, path: '/categories/lits' },
+  
   { title: 'Cabinet Médical', image: table2, path: '/categories/cabinet-medical' },  
   { title: 'Meubles TV', image: tv, path: '/categories/meubles-tv' },
   { title: 'Tables basses', image: table, path: '/categories/tables-basses' },
   { title: 'Buffets', image: buffet, path: '/categories/buffets' },
-  { title: 'Lits', image: bed, path: '/categories/lits' },
+
   { title: 'Cabinet Médical', image: table2, path: '/categories/cabinet-medical' },  
 ];
 
