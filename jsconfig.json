@@ -1,6 +1,14 @@
 {
-    "compilerOptions": {
-      "baseUrl": "src"
-    },
-    "include": ["src"]
- }
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "images/*": ["images/*"],
+      "fonts/*": ["fonts/*"],
+      "context/*": ["context/*"],
+      "components/*": ["components/*"],
+      "theme/*": ["theme/*"],
+      "enums": ["utils/enums"]
+    }
+  },
+  "include": ["src"]
+}
