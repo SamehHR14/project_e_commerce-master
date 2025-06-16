@@ -1,25 +1,60 @@
-import { Box, Grid, Typography, Divider, IconButton, Link, Container } from '@mui/material'; // Import de Container
+import {
+  Box,
+  Grid,
+  Typography,
+  Divider,
+  IconButton,
+  Link,
+  Container
+} from '@mui/material';
 import { FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa';
 
 function Footer() {
   return (
-    // Box externe avec une largeur de 100vw et sans padding horizontal direct ici
-    // overflowX: 'hidden' est important pour éviter une barre de défilement horizontale si le contenu dépasse
-    <Box sx={{ width: '100vw', backgroundColor: '#d9d7d2', color: '#333', py: 4, overflowX: 'hidden' }}>
-      {/* Container pour le contenu du footer, qui gérera la largeur et le padding */}
-      {/* maxWidth="lg" aligne le contenu avec un container de largeur 'lg' (par défaut 1280px sur les grands écrans avec des marges) */}
+    <Box
+      sx={{
+        width: '100vw',
+        backgroundColor: '#F9F7F1',
+        color: '#333',
+        py: 2,
+        overflowX: 'hidden'
+      }}
+    >
       <Container maxWidth="lg">
-        <Grid container textAlign={{ xs: 'center', md: 'left' }} justifyContent="left">
+        <Grid container textAlign={{ xs: 'center', md: 'left' }} spacing={2}>
           {/* Email & Téléphones */}
           <Grid item xs={12} md={4}>
-            <Typography variant="subtitle1" fontWeight={600} sx={{ color: '#4E342E' }}>Email</Typography>
-            <Link href="mailto:ntbm.decore@gmail.com" underline="hover" color="inherit">
-              <Typography variant="body2" sx={{ mt: 1 }}>
-                ntbm.decore@gmail.com
-              </Typography>
+            <Typography
+              variant="subtitle1"
+              sx={{
+                fontFamily: 'Playfair Display, serif',
+                fontStyle: 'italic',
+                fontWeight: 600,
+                fontSize: '1.1rem',
+                color: '#5D4037'
+              }}
+            >
+              Email
+            </Typography>
+            <Link
+              href="mailto:ntbm.decore@gmail.com"
+              underline="hover"
+              color="inherit"
+            >
+              <Typography variant="body2">ntbm.decore@gmail.com</Typography>
             </Link>
 
-            <Typography variant="subtitle1" fontWeight={600} sx={{ mt: 2, color: '#4E342E' }}>
+            <Typography
+              variant="subtitle1"
+              sx={{
+                mt: 1.5,
+                fontFamily: 'Playfair Display, serif',
+                fontStyle: 'italic',
+                fontWeight: 600,
+                fontSize: '1.1rem',
+                color: '#5D4037'
+              }}
+            >
               Téléphones
             </Typography>
             <Link href="tel:+21628262262" underline="hover" color="inherit">
@@ -32,7 +67,18 @@ function Footer() {
 
           {/* Adresse */}
           <Grid item xs={12} md={4}>
-            <Typography variant="subtitle1" fontWeight={600} sx={{ color: '#4E342E' }}>Adresse</Typography>
+            <Typography
+              variant="subtitle1"
+              sx={{
+                fontFamily: 'Playfair Display, serif',
+                fontStyle: 'italic',
+                fontWeight: 600,
+                fontSize: '1.1rem',
+                color: '#5D4037'
+              }}
+            >
+              Adresse
+            </Typography>
             <Link
               href="https://www.google.com/maps?q=Route+Teniour+KM+9+Immeuble+Derbel,+Sfax"
               target="_blank"
@@ -40,7 +86,7 @@ function Footer() {
               underline="hover"
               color="inherit"
             >
-              <Typography variant="body2" sx={{ mt: 1 }}>
+              <Typography variant="body2">
                 Route Teniour KM 9<br />
                 Immeuble Derbel, Sfax
               </Typography>
@@ -49,8 +95,26 @@ function Footer() {
 
           {/* Réseaux sociaux */}
           <Grid item xs={12} md={4}>
-            <Typography variant="subtitle1" fontWeight={600} sx={{ color: '#4E342E' }}>Suivez-nous :</Typography>
-            <Box sx={{ display: 'flex', justifyContent: { xs: 'center', md: 'flex-start' }, gap: 1.5, mt: 1.5 }}>
+            <Typography
+              variant="subtitle1"
+              sx={{
+                fontFamily: 'Playfair Display, serif',
+                fontStyle: 'italic',
+                fontWeight: 600,
+                fontSize: '1.1rem',
+                color: '#5D4037'
+              }}
+            >
+              Suivez-nous :
+            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: { xs: 'center', md: 'flex-start' },
+                gap: 1,
+                mt: 1
+              }}
+            >
               <IconButton
                 href="https://www.facebook.com/"
                 target="_blank"
@@ -82,8 +146,15 @@ function Footer() {
           </Grid>
         </Grid>
 
-        <Divider sx={{ my: 3, borderColor: 'rgba(0,0,0,0.1)' }} />
-        <Typography variant="caption" align="center" display="block" color="textSecondary">
+        <Divider sx={{ my: 1, borderColor: 'rgba(0,0,0,0.1)' }} />
+
+        <Typography
+          variant="caption"
+          align="center"
+          display="block"
+          color="textSecondary"
+          sx={{ mt: 1 }}
+        >
           © 2025 Meubles NTBM – Tous droits réservés.
         </Typography>
       </Container>

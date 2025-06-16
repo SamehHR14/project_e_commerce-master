@@ -4,6 +4,7 @@ import { memo, useState } from 'react';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import HeaderCategory from 'components/swiperSlide/headerCategory';
 
 const bannerImage = "/assets/home2.jpg";
 const contactImage = "/assets/contact-side-image.jpg";
@@ -125,7 +126,7 @@ const ContactPages = () => {
 
   return (
     <Box>
-      {/* Banner Section - Reste inchangée */}
+      {/* Banner Section - Reste inchangée 
       <ContactBanner>
         <Box sx={{
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -148,6 +149,8 @@ const ContactPages = () => {
           </Typography>
         </Box>
       </ContactBanner>
+      */}
+       <HeaderCategory  withoutTitle/>
 
       {/* Content Section */}
       <ContactContainer component="form" onSubmit={handleSubmit}>

@@ -10,7 +10,7 @@ import { memo } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 // Images
-import tv from '../../images/tv5.jpeg';
+import tv from '../../images/tv6.png';
 import table from '../../images/mur61.png';
 import buffet from '../../images/boutique3.png';
 import bed from '../../images/cuisine1.png';

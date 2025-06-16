@@ -2,17 +2,17 @@ import { Button, Checkbox, Container, Divider, Grid, ListItemButton, ListItemIco
 import HeaderCategory from "components/swiperSlide/headerCategory";
 import { memo, useState } from "react";
 
-import tv from '../../images/tv.png';
-import table from '../../images/table.jpeg';
-import buffet from '../../images/buffet.jpeg';
-import bed from '../../images/bed.jpeg';
-import table2 from '../../images/table2.jpeg';  
- import bannerImage from '../../images/home_header.jpg'; // Assurez-vous que le chemin est correct
+import tv from '../../images/tv6.png';
+import table from '../../images/tv6.png';
+import buffet from '../../images/tv7.png';
+import bed from '../../images/tv4.png';
+import table2 from '../../images/tv8.png';  
+import bannerImage from '../../images/home_header.jpg'; // Assurez-vous que le chemin est correct
 import MyMapSection from 'components/googleMaps';
 import ArticleCard from "components/articleCard";
 
 import { styled, alpha } from '@mui/material/styles'; 
-import Menu from '@mui/material/Menu';
+import Menu from '@mui/material/Menu'; 
 import MenuItem from '@mui/material/MenuItem';
 import EditIcon from '@mui/icons-material/Edit'; 
 import ArchiveIcon from '@mui/icons-material/Archive';
@@ -26,8 +26,11 @@ import IconButton from '@mui/material/IconButton';
 import CommentIcon from '@mui/icons-material/Comment';
 
 const category = {
-    id: 1,
-    title: 'Category 1',
+   
+    title: 'Liste produits',
+     id: 1,
+     title: 'Catégorie 1',
+
 };
 const categories = [
   { id: 1, title: 'Category 1' },
@@ -35,37 +38,63 @@ const categories = [
   { id: 3, title: 'Category 3' },
 ];
 const allProducts = [
-  { title: 'Meubles TV', image: tv, path: '/categories/meubles-tv' },
-  { title: 'Tables basses', image: table, path: '/categories/tables-basses' },
-  { title: 'Buffets', image: buffet, path: '/categories/buffets' },
- 
-  { title: 'Cabinet Médical', image: table2, path: '/categories/cabinet-medical' },  
-  { title: 'Meubles TV', image: tv, path: '/categories/meubles-tv' },
-  { title: 'Tables basses', image: table, path: '/categories/tables-basses' },
-  { title: 'Buffets', image: buffet, path: '/categories/buffets' },
-  { title: 'Lits', image: bed, path: '/categories/lits' },
-  { title: 'Cabinet Médical', image: table2, path: '/categories/cabinet-medical' },  
-  { title: 'Meubles TV', image: tv, path: '/categories/meubles-tv' },
-  { title: 'Tables basses', image: table, path: '/categories/tables-basses' },
-  { title: 'Buffets', image: buffet, path: '/categories/buffets' },
-
-  { title: 'Cabinet Médical', image: table2, path: '/categories/cabinet-medical' },  
-  { title: 'Meubles TV', image: tv, path: '/categories/meubles-tv' },
-  { title: 'Tables basses', image: table, path: '/categories/tables-basses' },
-  { title: 'Buffets', image: buffet, path: '/categories/buffets' },
-
-  { title: 'Cabinet Médical', image: table2, path: '/categories/cabinet-medical' },  
-  { title: 'Meubles TV', image: tv, path: '/categories/meubles-tv' },
-  { title: 'Tables basses', image: table, path: '/categories/tables-basses' },
-  { title: 'Buffets', image: buffet, path: '/categories/buffets' },
+  //tv
+  {
+    title: 'Temis',
+    image: require('../../images/tv6.png'), // remplace par le bon chemin
+    dimension: 'Meuble TV en acacia 160 cm',
+    
+  },
+  {
+    title: 'Anton',
+    image: require('../../images/mure.png'),
+    dimension: 'Meuble TV en teck massif 130 cm',
+   
+  },
   
-  { title: 'Cabinet Médical', image: table2, path: '/categories/cabinet-medical' },  
-  { title: 'Meubles TV', image: tv, path: '/categories/meubles-tv' },
-  { title: 'Tables basses', image: table, path: '/categories/tables-basses' },
-  { title: 'Buffets', image: buffet, path: '/categories/buffets' },
-
-  { title: 'Cabinet Médical', image: table2, path: '/categories/cabinet-medical' },  
+  {
+    title: 'Basil',
+    image: require('../../images/tv7.png'),
+    dimension: 'Meuble TV en teck massif 140 cm',
+   
+  },
+  {
+    title: 'Lana',
+    image: require('../../images/tv4.png'),
+    dimension: 'Meuble TV en chêne 150 cm',
+   
+  },
+  //mure
+  {
+    title: 'Milo',
+    image: require('../../images/mure17.jpg'),
+    dimension: 'Meuble TV avec rangements 120 cm',
+    
+  },
+  {
+    title: 'Nova',
+    image: require('../../images/mur16.jpg'),
+    dimension: 'Meuble TV moderne 180 cm',
+   
+  },
+  
+   {
+    title: 'Nova',
+     image: require('../../images/mure2.png'),
+   
+    dimension: 'Meuble TV moderne 180 cm',
+    
+  
+  },
+   {
+    title: 'Nova',
+    image: require('../../images/mure3.png'),
+    dimension: 'Meuble TV moderne 180 cm',
+    
+    
+  },
 ];
+
 
 
 const StyledMenu = styled((props) => (

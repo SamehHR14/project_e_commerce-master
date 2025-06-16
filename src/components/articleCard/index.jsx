@@ -1,43 +1,68 @@
-import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography } from '@mui/material';
-import React, { useRef, useState } from 'react'; 
- 
-export default function ArticleCard(article) {
+import {
+  Box,
+  Button,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Chip,
+  Typography
+} from '@mui/material';
+import React from 'react';
+
+export default function ArticleCard({ image, title, dimension, price, oldPrice, promo }) {
   return (
-   <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
+    <Card sx={{ maxWidth: 345, boxShadow: 0 }}>
+      <Box sx={{ position: 'relative' }}>
+        {promo && (
+          <Chip
+            label={promo}
+            color="error"
+            size="small"
+            sx={{ position: 'absolute', top: 10, left: 10, zIndex: 1 }}
+          />
+        )}
         <CardMedia
           component="img"
-          height="140"
-          image={article.image || "https://source.unsplash.com/random/800x600?article"}
-          alt="green iguana"
+          height="200"
+          image={image || "https://source.unsplash.com/random/800x600?article"}
+          alt={title || "Produit"}
+          sx={{ objectFit: 'cover' }}
         />
-        <CardContent>
-          <Typography sx={{
+      </Box>
+      <CardContent sx={{ paddingBottom: 0 }}>
+        <Typography
+          sx={{
             color: '#000',
             fontWeight: 600,
-            mb: 1,
-            fontSize: '1.2rem',
-            textAlign: 'center',
+            fontSize: '1.1rem',
             textTransform: 'capitalize',
-          }} gutterBottom variant="h5" component="div">
-          {article.title || "Lizard"}
-          </Typography> 
-        </CardContent>
-      </CardActionArea>
-      <CardActions sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
-        <Button 
-        sx={{
-               backgroundColor: '#000',
-                      color: '#fff',
-                      textTransform: 'none',
-                      padding: '8px 24px',
-                      '&:hover': { backgroundColor: '#333' },
-                      mt: 'auto', // Pousse le bouton vers le bas de la CardContent
-                   
-        }}>
-          Découvrir
-        </Button>
-      </CardActions>
+          }}
+        >
+          {title || "Titre"}
+        </Typography>
+        {dimension && (
+          <Typography variant="body2" color="text.secondary" sx={{ marginTop: 0.5 }}>
+            {dimension}
+          </Typography>
+        )}
+        <Box display="flex" alignItems="center" gap={1} mt={1}>
+          <Typography variant="body1" fontWeight="bold">
+           
+          </Typography>
+          {oldPrice && (
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ textDecoration: 'line-through' }}
+            >
+             
+            </Typography>
+          )}
+        </Box>
+      </CardContent>
+     
     </Card>
   );
 }
