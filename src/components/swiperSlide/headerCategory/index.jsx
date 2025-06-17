@@ -5,7 +5,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
  
 // import required modules
-import { Pagination } from 'swiper/modules';
+import { Pagination, Autoplay } from 'swiper/modules'; 
 import { Box } from '@mui/material';
 
 
@@ -51,14 +51,20 @@ sx={{
   }
 }}
 >
-      <Swiper
+        <Swiper
         className="mySwiper swiper-h"
         spaceBetween={0}
         pagination={{
           clickable: true,
         }}
-        modules={[Pagination]}
+        autoplay={{
+          delay: 3000, // ✅ délai entre les slides
+          disableOnInteraction: false, // ✅ continue après clic
+        }}
+        modules={[Pagination, Autoplay]} // ✅ Autoplay ajouté ici
       >
+
+
         {categories.map((category) => (
           <SwiperSlide key={category.id}>
          <Box sx={{

@@ -1,10 +1,4 @@
-import {
-  Box,
-  Typography,
-  Container,
-  Grid,
-  Button
-} from '@mui/material';
+import { Box, Typography, Container, Grid, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { memo } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
@@ -14,23 +8,21 @@ import tv from '../../images/tv6.png';
 import table from '../../images/mur61.png';
 import buffet from '../../images/boutique3.png';
 import bed from '../../images/cuisine1.png';
-import table2 from '../../images/table2.jpeg';
-import cabinetDentaire1 from '../../images/cabinetDentaire1.jpg';
+import cabinet3 from '../../images/cabinet3.png';
+import dentaire1 from '../../images/dentaire1.png';
 import HeaderCategory from 'components/swiperSlide/headerCategory';
 
 const bannerImage = "/assets/home.webp";
 
-// Produits
 const allProducts = [
-  { title: 'Meubles TV', image: tv, path: '/categories/meubles-tv' },
-  { title: 'Revêtement mural', image: table, path: '/categories/revetement-mural' },
-  { title: 'Aménagement boutique', image: buffet, path: '/categories/amenagement-boutique' },
-  { title: 'Cuisine', image: bed, path: '/categories/cuisine' },
-  { title: 'Cabinet Médical', image: table2, path: '/categories/cabinet-medical' },
-  { title: 'Cabinet Dentaire', image: cabinetDentaire1, path: '/categories/cabinet-dentaire' },
+  { title: 'Meubles TV', image: tv, path: '/product/meubles-tv', price: '599.00' },
+  { title: 'Revêtement mural', image: table, path: '/product/revetement-mural', price: '799.00' },
+  { title: 'Aménagement boutique', image: buffet, path: '/product/amenagement-boutique', price: '1299.00' },
+  { title: 'Cuisine', image: bed, path: '/product/cuisine', price: '1999.00' },
+  { title: 'Cabinet Médical', image: cabinet3, path: '/product/cabinet-medical', price: '1499.00' },
+  { title: 'Cabinet Dentaire', image: dentaire1, path: '/product/cabinet-dentaire', price: '1099.00' },
 ];
 
-// Bannière
 const FullWidthBanner = styled(Box)({
   width: '100vw',
   height: '76vh',
@@ -49,20 +41,8 @@ const FullWidthBanner = styled(Box)({
 const HomePages = () => {
   return (
     <Box>
-      {/* Bannière principale 
-     <FullWidthBanner>
-  <Box sx={{ p: 4, borderRadius: 2, textAlign: 'left' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2 }}>
-            NTBM
-          </Typography>
-        </Box>
-      </FullWidthBanner>
-    */}
+      <HeaderCategory withoutTitle />
 
-
-     <HeaderCategory  withoutTitle/>
-
-      {/* Section Catégories */}
       <Container sx={{ py: 8 }}>
         <Typography
           variant="h5"
@@ -102,10 +82,12 @@ const HomePages = () => {
               <Box
                 component={RouterLink}
                 to={product.path}
+                state={{ product }}
                 sx={{
                   position: 'relative',
                   display: 'block',
-                  height: 320,
+                  maxHeight: 220,
+                  height: 250,
                   overflow: 'hidden',
                   borderRadius: 3,
                   boxShadow: 4,

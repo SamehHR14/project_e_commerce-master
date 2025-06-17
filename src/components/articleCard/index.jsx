@@ -40,7 +40,7 @@ export default function ArticleCard({ image, title, dimension, price, oldPrice, 
             textTransform: 'capitalize',
           }}
         >
-          {title || "Titre"}
+          {title || ""}
         </Typography>
         {dimension && (
           <Typography variant="body2" color="text.secondary" sx={{ marginTop: 0.5 }}>

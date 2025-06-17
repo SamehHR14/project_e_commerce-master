@@ -93,6 +93,67 @@ const allProducts = [
     
     
   },
+
+
+   //boutique
+  {
+    title: 'boutique1',
+    image: require('../../images/boutique1.png'),
+    dimension: 'Meuble TV avec rangements 120 cm',
+    
+  },
+  {
+    title: 'Nova',
+    image: require('../../images/boutique2.png'),
+    dimension: 'Meuble TV moderne 180 cm',
+   
+  },
+  
+   {
+    title: 'Nova',
+     image: require('../../images/boutique3.png'),
+   
+    dimension: 'Meuble TV moderne 180 cm',
+    
+  
+  },
+   {
+    title: 'Nova',
+    image: require('../../images/boutique5.png'),
+    dimension: 'Meuble TV moderne 180 cm',
+    
+    
+  },
+
+   //cuisine
+  {
+    title: 'cuisine',
+    image: require('../../images/cuisine1.png'),
+    dimension: 'Meuble TV avec rangements 120 cm',
+    
+  },
+  {
+    title: 'Nova',
+    image: require('../../images/cuisine4.png'),
+    dimension: 'Meuble TV moderne 180 cm',
+   
+  },
+  
+   {
+    title: 'Nova',
+     image: require('../../images/cuisine81.png'),
+   
+    dimension: 'Meuble TV moderne 180 cm',
+    
+  
+  },
+   {
+    title: 'Nova',
+    image: require('../../images/boutique5.png'),
+    dimension: 'Meuble TV moderne 180 cm',
+    
+    
+  },
 ];
 
 

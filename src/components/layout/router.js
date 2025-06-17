@@ -10,6 +10,8 @@ const HomePages = lazy(() => import("../../pages/home/index"));
 const ContactPages = lazy(() => import("../../pages/contact/index"));
 const Apropos = lazy(() => import("../../pages/apropos/index"));
 const Produits = lazy(() => import("../../pages/produits/index"));
+const Nouveau = lazy(() => import("../../pages/nouveauté/index"));
+const ProductDetails = lazy(() => import("../../pages/productDetails/index")); // Adjust the import path as needed
 
 const PrivateRoute = lazy(() => import("./private/index"));
 
@@ -20,7 +22,7 @@ const PrivateRoute = lazy(() => import("./private/index"));
  */
 const Layout = () => {
   return (
-   <>
+    <>
       <Header />
       <Box sx={{ marginTop: "64px" }}>
         <Outlet />
@@ -46,21 +48,26 @@ export const router = createBrowserRouter([
         path: '/contact',
         element: <Suspense fallback={<LinearProgress color="inherit" />}> <ContactPages /> </Suspense>,
       },
-
-       {
+      {
         path: '/a-propos',
-         element: <Suspense fallback={<LinearProgress color="inherit" />}> <Apropos /> </Suspense>,
+        element: <Suspense fallback={<LinearProgress color="inherit" />}> <Apropos /> </Suspense>,
       },
       {
         path: '/produit',
         element: <Suspense fallback={<LinearProgress color="inherit" />}> <Produits /> </Suspense>,
       },
       {
+        path: '/nouveautes',
+        element: <Suspense fallback={<LinearProgress color="inherit" />}> <Nouveau /> </Suspense>,
+      },
+      {
         path: '/page/signIn',
         // element: <Suspense fallback={<LinearProgress color="inherit" />}> <SignInPage /> </Suspense>,
       },
-
-      
+      {
+        path: '/product/:name', // New route for product details
+        element: <Suspense fallback={<LinearProgress color="inherit" />}> <ProductDetails /> </Suspense>,
+      },
       {
         element: <PrivateRoute />,
         children: [
