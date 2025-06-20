@@ -11,9 +11,10 @@ const ContactPages = lazy(() => import("../../pages/contact/index"));
 const Apropos = lazy(() => import("../../pages/apropos/index"));
 const Produits = lazy(() => import("../../pages/produits/index"));
 const Nouveau = lazy(() => import("../../pages/nouveauté/index"));
-const ProductDetails = lazy(() => import("../../pages/productDetails/index")); // Adjust the import path as needed
-
+const ProductDetails = lazy(() => import("../../pages/productDetails/index"));
 const PrivateRoute = lazy(() => import("./private/index"));
+const ProductForm = lazy(() => import("../../pages/productDetails/form"));
+
 
 /**
  * Layout component that includes a fixed header and an outlet for rendering child routes.
@@ -67,7 +68,33 @@ export const router = createBrowserRouter([
       {
         path: '/product/:name', // New route for product details
         element: <Suspense fallback={<LinearProgress color="inherit" />}> <ProductDetails /> </Suspense>,
-      },
+      },{
+  path: 'productForm',
+  element: (
+    <Suspense fallback={<LinearProgress color="inherit" />}>
+      <Outlet />
+    </Suspense>
+  ),
+  children: [
+    {
+      index: true, 
+      element: (
+        <Suspense fallback={<LinearProgress color="inherit" />}>
+          <ProductForm />
+        </Suspense>
+      ),
+    },
+    {
+      path: ':id',
+      element: (
+        <Suspense fallback={<LinearProgress color="inherit" />}>
+          <ProductForm />
+        </Suspense>
+      ),
+    }, 
+  ],
+},
+
       {
         element: <PrivateRoute />,
         children: [

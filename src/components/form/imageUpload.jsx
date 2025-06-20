@@ -1,0 +1,105 @@
+import { Box, Button, Typography, IconButton } from '@mui/material';
+import { useField, useFormikContext } from 'formik';
+import { useEffect, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
+import DeleteIcon from '@mui/icons-material/Delete';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+const CustomImageUpload = ({ name, label }) => {
+  const { setFieldValue } = useFormikContext();
+  const [field, meta] = useField(name);
+  const [previews, setPreviews] = useState([]);
+
+  const handleChange = (event) => {
+    const files = Array.from(event.currentTarget.files);
+     let copyFiles = [...field.value,...files]; 
+    setFieldValue(name, copyFiles);
+  };
+
+  const handleDelete = (indexToDelete) => {
+    const updatedFiles = field.value.filter((_, index) => index !== indexToDelete); 
+    setFieldValue(name, updatedFiles);
+  };
+  useEffect(()=>{ 
+    if(field.value){
+    const previews = field.value.map((file) => URL.createObjectURL(file));
+    setPreviews(previews); 
+  }},[field.value])
+
+  return (
+    <Box>  
+
+      {meta.touched && meta.error && (
+        <Typography color="error" variant="body2" mb={2}>
+          {meta.error}
+        </Typography>
+      )}
+
+      {previews.length > 0 && (
+        <Swiper
+          spaceBetween={10}
+          slidesPerView={2}
+          navigation
+          pagination={{ clickable: true }}
+          modules={[Navigation, Pagination]}
+        >
+          {previews.map((src, index) => (
+            <SwiperSlide key={index}>
+              <Box position="relative">
+                <img
+                  src={src}
+                  alt={`preview-${index}`}
+                  style={{
+                    width: '100%',
+                    height: 160,
+                    objectFit: 'cover',
+                    borderRadius: 8,
+                  }}
+                />
+                <IconButton
+                  onClick={() => handleDelete(index)}
+                  size="small"
+                  sx={{
+                    position: 'absolute',
+                    top: 5,
+                    right: 5,
+                    backgroundColor: 'rgba(255,255,255,0.8)',
+                    '&:hover': {
+                      backgroundColor: 'rgba(255,0,0,0.7)',
+                      color: '#fff',
+                    },
+                  }}
+                >
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </Box>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
+      <Button
+        variant="outlined"
+        style={{
+          textTransform:'none'
+        }}
+        component="label"
+        fullWidth
+        sx={{ mb: 2 }}
+      >
+        Choisir des images
+        <input
+          hidden
+          accept="image/*"
+          multiple
+          type="file"
+          onChange={handleChange}
+        />
+      </Button>
+    </Box>
+  );
+};
+
+export default CustomImageUpload;
