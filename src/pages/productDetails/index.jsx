@@ -91,9 +91,7 @@ const ProductDetails = () => {
           <Typography variant="body1" sx={{ mb: 2 }}>
             This is a detailed description of the product.
           </Typography>
-          <Typography variant="h6" sx={{ mb: 2 }}>
-            Price: {product.price || 'N/A'} TND
-          </Typography>
+          
           <Button variant="contained" color="primary">
             Add to Cart
           </Button>
