@@ -11,7 +11,7 @@ const CustomSelect = ({ name, label, options, ...props }) => {
         label={label}
         {...field}
         {...props}
-           sx={{ minWidth: 100, textAlign: 'left' }}
+           sx={{ minWidth: 100, borderRadius:'10px', textAlign: 'left' }}
         value={field.value || ''}
         onChange={field.onChange}
         onBlur={field.onBlur}
@@ -30,3 +30,4 @@ const CustomSelect = ({ name, label, options, ...props }) => {
 };
 
 export default CustomSelect;
+ 

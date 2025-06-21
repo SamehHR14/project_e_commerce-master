@@ -12,10 +12,8 @@ import { styled } from '@mui/material/styles';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
-import CustomTextField from 'components/form/input';
-import CustomSelect from 'components/form/select';
-import CustomImageUpload from 'components/form/imageUpload';
-import EditorDraft from 'components/form/richTextEditor';
+import CustomTextField from 'components/form/input'; 
+import CustomImageUpload from 'components/form/imageUpload'; 
 
 // ⬛ Paper Styling
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -45,24 +43,19 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
 // ✅ Validation Schema
 const validationSchema = Yup.object({
-    name: Yup.string().required('Le nom est requis'),
-    description: Yup.string().required('La description est requise'),
-    categoryId: Yup.string().required('La catégorie est requise'),
+    name: Yup.string().required('Le nom est requis'), 
     images: Yup.array().min(1, 'Veuillez ajouter au moins une image'),
 });
 
 // ✅ Initial Form Values
 const initialValues = {
-    name: '',
-    description: '<p></p>',
-    webMetaDescription:'',
-    webMetaTitle:'',
-    categoryId: '',
+    name: '', 
+    webMetaTitle:'', 
     images: [],
 };
 
 // ✅ Main Form Component
-const ProductForm = () => {
+const CategoryForm = () => {
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -76,7 +69,7 @@ const ProductForm = () => {
                     fontWeight="bold"
                     color="text.primary"
                 >
-                    Ajouter un produit
+                    Ajouter une catégorie
                 </Typography>
 
                 <Formik
@@ -91,26 +84,14 @@ const ProductForm = () => {
                         <Form>
                             <Grid container spacing={4}>
 
-                                <Grid item xs={12} md={6}>
-                                    <CustomTextField name="name" label="Nom du produit" />
-                                </Grid>
-
-                                <Grid item xs={12} md={6}>
-                                    <CustomSelect
-                                        name="categoryId"
-                                        label="Catégorie"
-                                        options={[
-                                            { value: 'salon', label: 'Salon' },
-                                            { value: 'table', label: 'Table' },
-                                            { value: 'chaise', label: 'Chaise' },
-                                            { value: 'lit', label: 'Lit' },
-                                        ]}
-                                    />
-                                </Grid>
+                                <Grid item xs={12}>
+                                    <CustomTextField name="name" label="Nom de la catégorie" />
+                                </Grid> 
 
                                 <Grid item xs={12}>
                                     <CustomImageUpload
                                         name="images"
+                                        onlyOneImage
                                         label="Images du produit"
                                     />
                                 </Grid>
@@ -124,27 +105,7 @@ const ProductForm = () => {
                                         placeholder="Saisir le titre SEO de la page"
                                     />
                                 </Grid>
-
-                                <Grid item xs={12}>
-                                    <CustomTextField
-                                        name="webMetaDescription"
-                                        multiline
-                                        rows={4}
-                                        label="Meta description"
-                                        placeholder="Saisir la description SEO de la page"
-                                    />
-                                </Grid>
-
-                                <Grid item xs={12}>
-
-                                    <EditorDraft
-                                        name={'description'}
-                                        handleChange={(value) => setFieldValue('description', value)}
-                                        defaultValue={values.description}
-                                        placeholder="Saisir la description"
-                                    />
-
-                                </Grid>
+ 
 
                                 <Grid item xs={12}>
                                     <StyledButton type="submit" fullWidth>
@@ -160,4 +121,4 @@ const ProductForm = () => {
     );
 };
 
-export default ProductForm;
+export default CategoryForm;

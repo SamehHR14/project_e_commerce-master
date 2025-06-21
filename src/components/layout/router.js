@@ -14,6 +14,7 @@ const Nouveau = lazy(() => import("../../pages/nouveauté/index"));
 const ProductDetails = lazy(() => import("../../pages/productDetails/index"));
 const PrivateRoute = lazy(() => import("./private/index"));
 const ProductForm = lazy(() => import("../../pages/productDetails/form"));
+const CategoryForm = lazy(() => import("../../pages/category/form"));
 
 
 /**
@@ -89,6 +90,31 @@ export const router = createBrowserRouter([
       element: (
         <Suspense fallback={<LinearProgress color="inherit" />}>
           <ProductForm />
+        </Suspense>
+      ),
+    }, 
+  ],
+},{
+  path: 'categoryForm',
+  element: (
+    <Suspense fallback={<LinearProgress color="inherit" />}>
+      <Outlet />
+    </Suspense>
+  ),
+  children: [
+    {
+      index: true, 
+      element: (
+        <Suspense fallback={<LinearProgress color="inherit" />}>
+          <CategoryForm />
+        </Suspense>
+      ),
+    },
+    {
+      path: ':id',
+      element: (
+        <Suspense fallback={<LinearProgress color="inherit" />}>
+          <CategoryForm />
         </Suspense>
       ),
     }, 

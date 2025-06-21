@@ -8,7 +8,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-const CustomImageUpload = ({ name, label }) => {
+const CustomImageUpload = ({ name, label,onlyOneImage=false }) => {
   const { setFieldValue } = useFormikContext();
   const [field, meta] = useField(name);
   const [previews, setPreviews] = useState([]);
@@ -16,6 +16,8 @@ const CustomImageUpload = ({ name, label }) => {
   const handleChange = (event) => {
     const files = Array.from(event.currentTarget.files);
      let copyFiles = [...field.value,...files]; 
+      if(onlyOneImage)
+        copyFiles = [...files]; 
     setFieldValue(name, copyFiles);
   };
 

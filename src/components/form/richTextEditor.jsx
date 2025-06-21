@@ -1,17 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import {  useEffect, useState } from "react";
+import { EditorState, convertToRaw, ContentState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { Box } from "@mui/material"; 
+import draftToHtml from "draftjs-to-html";
+import htmlToDraft from 'html-to-draftjs'; 
+import "./editor.css";
+import { useField } from "formik"; 
+import { FormHelperText } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import 'assets/css/react_draft_wysiwyg.css';
+
 const generateToolbarOptions = () => ({
 
-  options: ['inline',/* 'blockType', */'fontSize', 'colorPicker', 'fontFamily', 'list', 'textAlign', /* 'link', 'embedded', 'emoji', 'image', 'remove',*/ 'history'],
+  options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'embedded', 'emoji', 'image', 'remove', 'history'],
   inline: {
     inDropdown: false,
     className: undefined,
     component: undefined,
     dropdownClassName: undefined,
-    options: ['bold', 'italic', 'underline', 'strikethrough'/*, 'monospace', 'superscript', 'subscript'*/],
+    options: ['bold', 'italic', 'underline', 'strikethrough', 'monospace', 'superscript', 'subscript'],
 
     // bold: { icon: bold, className: undefined },
     // italic: { icon: italic, className: undefined },
@@ -22,13 +28,13 @@ const generateToolbarOptions = () => ({
     // subscript: { icon: subscript, className: undefined },
   },
 
-  /*blockType: {
+  blockType: {
     inDropdown: true,
     options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'Blockquote', 'Code'],
     className: undefined,
     component: undefined,
     dropdownClassName: undefined,
-  },*/
+  },
   fontSize: {
     // icon: fontSize,
     options: [8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72, 96],
@@ -47,7 +53,7 @@ const generateToolbarOptions = () => ({
     className: undefined,
     component: undefined,
     dropdownClassName: undefined,
-    options: ['unordered', 'ordered'/*, 'indent', 'outdent'*/],
+    options: ['unordered', 'ordered', 'indent', 'outdent'],
     // unordered: { icon: unordered, className: undefined },
     // ordered: { icon: ordered, className: undefined },
     // indent: { icon: indent, className: undefined },
@@ -147,63 +153,82 @@ const generateToolbarOptions = () => ({
 
 });
 
-
-
-const RichTextEditorWithColor = ({ value, onChange ,placeholder='Saisir la description'}) => {
- 
-  const [editorState, setEditorState] = useState(() => {
-    if (value) {
-      try {
-        return EditorState.createWithContent(convertFromRaw(value));
-      } catch {
-        return EditorState.createEmpty();
-      }
+const useStyles = makeStyles(theme => ({
+  richTextError : {
+    "& .MuiFormHelperText-root" : {
+      position : "relative",
+      top : "5px"
     }
-    return EditorState.createEmpty();
-  });
- 
+  }
+}));
+
+export default function EditorDraft(props) {
+
+  /* 
+  1- hideToolbar is a boolean state used to show and hide the toolbar using the function
+   toolbarOnFocus={hideToolbar} , toolbarHidden={hideToolbar} , in the initial value the toolbar is hidden
+
+  2- The overide the css of the editor have wrapperClassName & editorClassName , I make a condition to change
+  the colors in case of the light version
+  */
+
+
+  const classes = useStyles();
+  
+  const [editorState, setEditorState] = useState(
+    EditorState.createWithContent(
+      ContentState.createFromBlockArray(
+        htmlToDraft("<p></p>")
+      ))
+  )
+
   useEffect(() => {
-    if (value) {
-      try {
-        setEditorState(EditorState.createWithContent(convertFromRaw(value)));
-      } catch {
-        setEditorState(EditorState.createEmpty());
-      }
-    } else {
-      setEditorState(EditorState.createEmpty());
-    }
-  }, [value]);
+if(props.defaultValue !== draftToHtml(convertToRaw(editorState.getCurrentContent())))
+    setEditorState(EditorState.createWithContent(
+      ContentState.createFromBlockArray(
+        htmlToDraft(props.defaultValue || '<p> </p>')
+      )
+    ))
+  }, [props.defaultValue]);
 
-  const onEditorStateChange = (state) => {
-    setEditorState(state);
-    if (onChange) {
-      onChange(convertToRaw(state.getCurrentContent())); 
-    }
+  const onEditorStateChange = editorState => {
+    props.handleChange(
+      draftToHtml(convertToRaw(editorState.getCurrentContent())),
+    );
+    setEditorState(editorState)
   };
-
+  const [field, meta] = useField(props.name);
+  const error = meta.touched && meta.error;
+   
   return (
-    <Box style={{padding:10,border:'1px solid #F1F1F1',borderRadius:'10px'}} sx={{
-      '& .rdw-editor-toolbar':{
-        border:0
-      },
-      '& .rdw-editor-main':{
-      border:'1px solid #F1F1F1',
-      borderRadius:'10px',
-      overflow:'auto',
-      maxHeight:'50vh'
-      }
-    }}>
+    <div className={classes.richTextError} >
       <Editor
-        editorState={editorState}
-     placeholder={placeholder}
-        toolbarClassName="toolbarClassName"
-        wrapperClassName="wrapperClassName"
-        editorClassName="editorClassName"
+     readOnly = {props.readOnly}
+        editorStyle={props.style}
+        placeholder={props.placeholder}
+        handlePastedText={() => false}
+        editorState={editorState} 
+        stripPastedStyles={true}
         onEditorStateChange={onEditorStateChange}
-        toolbar={generateToolbarOptions()}
-      />
-    </Box>
-  );
-};
+        toolbar={ props.toolbar || generateToolbarOptions()} 
+        
+ 
+       // The translation options lcoales: en, fr, zh, ru, pt, ko, it, nl, de, da, zh_tw, pl, es.
+       
+        localization={{
+         locale:'fr',
+       }} 
 
-export default RichTextEditorWithColor;
+      />
+      
+      {/* in case of formik validation*/ }
+      {
+        
+      props.name && meta.touched && meta.error && (
+          <FormHelperText error >{error}</FormHelperText>
+        ) 
+        
+        }
+    </div>
+  )
+} 

@@ -1,0 +1,114 @@
+.rdw-editor-main{
+   /*  background-color: transparent; */
+    background-color: white;
+     color: rgba(0, 0, 0, 0.87);
+    border: 1px solid #F1F1F1;
+    
+    border-radius: 10px;
+   max-height: 300px; 
+ }
+
+.rdw-editor-toolbar {
+     margin-bottom: 10px;
+    background-color: transparent;
+    border: 1px solid #F1F1F1;
+    border-radius: 10px !important;
+}
+
+.rdw-dropdownoption-default {
+     color: rgba(0, 0, 0, 0.87);
+}
+
+.rdw-link-modal-label {
+     color: rgba(0, 0, 0, 0.87);
+}
+
+.rdw-dropdown-selectedtext {
+     color: rgba(0, 0, 0, 0.87);
+}
+
+.rdw-colorpicker-modal-style-label-active {
+     color: rgba(0, 0, 0, 0.87);
+}
+
+.rdw-colorpicker-modal-style-label {
+     color: rgba(0, 0, 0, 0.87);
+}
+
+.rdw-image-modal-header-option {
+     color: rgba(0, 0, 0, 0.87);
+}
+
+.rdw-link-modal-target-option > span {
+     color: rgba(0, 0, 0, 0.87);
+}
+
+.rdw-embedded-modal-header-option {
+     color: rgba(0, 0, 0, 0.87);
+}
+
+
+
+.rdw-option-wrapper { 
+    border: 1px solid #F1F1F1;
+    appearance: none;
+    outline: none;
+    background-color: transparent; 
+   
+}
+
+
+.rdw-option-wrapper:hover {
+    border: 1px solid transparent;
+    outline: none;
+}
+/*
+.rdw-option-wrapper img {
+    filter: brightness(0) invert(1);
+}
+*/
+.rdw-dropdown-wrapper {
+    height: 30px;
+    background: white;
+    cursor: pointer;
+    border: 1px solid #F1F1F1;
+    border-radius: 10px;
+    border-radius: 2px;
+    margin: 0 3px;
+    text-transform: capitalize;
+    background: transparent;
+}
+
+/* color of text of selected Text */
+
+.rdw-dropdown-selectedtext {
+    color: rgba(0, 0, 0, 0.87);
+}
+/* arrow of the select */
+.rdw-dropdown-carettoopen {
+    height: 0px;
+    width: 0px;
+    position: absolute;
+    top: 35%;
+    right: 10%;
+    border-top: 6px solid #f7f5f5;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+}
+
+.rdw-dropdown-wrapper:hover{
+    background-color:#190227;
+}
+
+/*  class of selected Text */
+.rdw-dropdown-wrapper {
+    height: 30px;
+    cursor: pointer;
+    border: 1px solid #F1F1F1;
+    border-radius: 2px;
+    margin: 0 3px;
+    text-transform: capitalize;
+    background: transparent;
+}
+
+ 

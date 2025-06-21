@@ -11,6 +11,11 @@ const CustomTextField = ({ name, label, ...props }) => {
       variant="outlined"
       {...field}
       {...props}
+    sx={{
+     ...props?.sx, 
+     '& .MuiOutlinedInput-root':{
+     borderRadius:'10px'}
+    }}
       error={meta.touched && Boolean(meta.error)}
       helperText={meta.touched && meta.error}
     />
