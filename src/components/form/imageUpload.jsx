@@ -13,23 +13,44 @@ const CustomImageUpload = ({ name, label,onlyOneImage=false }) => {
   const [field, meta] = useField(name);
   const [previews, setPreviews] = useState([]);
 
-  const handleChange = (event) => {
-    const files = Array.from(event.currentTarget.files);
-     let copyFiles = [...field.value,...files]; 
-      if(onlyOneImage)
-        copyFiles = [...files]; 
-    setFieldValue(name, copyFiles);
-  };
+const handleChange = (event) => {
+  const files = Array.from(event.currentTarget.files);
+
+  if (!files.length) return;
+
+  if (onlyOneImage) {
+     
+    setFieldValue(name, files[0]);  
+  } else {
+ 
+    const existingFiles = Array.isArray(field.value) ? field.value : [];
+    const copyFiles = [...existingFiles, ...files];
+    setFieldValue(name, copyFiles);  
+  }
+};
 
   const handleDelete = (indexToDelete) => {
     const updatedFiles = field.value.filter((_, index) => index !== indexToDelete); 
     setFieldValue(name, updatedFiles);
   };
   useEffect(()=>{ 
-    if(field.value){
-    const previews = field.value.map((file) => URL.createObjectURL(file));
-    setPreviews(previews); 
-  }},[field.value])
+if (!field.value) {
+    setPreviews([]);
+    return;
+  }
+
+  let objectUrls = [];
+
+  if (onlyOneImage) {
+    const url = URL.createObjectURL(field.value);
+    objectUrls.push(url);
+  } else if (Array.isArray(field.value)) {
+    objectUrls = field.value.map(file => URL.createObjectURL(file));
+  }
+
+  setPreviews(objectUrls);
+
+  },[field.value])
 
   return (
     <Box>  

@@ -7,7 +7,7 @@ import "./editor.css";
 import { useField } from "formik"; 
 import { FormHelperText } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import 'assets/css/react_draft_wysiwyg.css';
+import '../../assets/css/react_draft_wysiwyg.css';
 
 const generateToolbarOptions = () => ({
 
@@ -152,7 +152,7 @@ const generateToolbarOptions = () => ({
   },
 
 });
-
+ 
 const useStyles = makeStyles(theme => ({
   richTextError : {
     "& .MuiFormHelperText-root" : {

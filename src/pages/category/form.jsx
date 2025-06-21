@@ -14,6 +14,7 @@ import * as Yup from 'yup';
 
 import CustomTextField from 'components/form/input'; 
 import CustomImageUpload from 'components/form/imageUpload'; 
+import { useCreateOrUpdateCategory } from 'services/hooks/category';
 
 // ⬛ Paper Styling
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -51,7 +52,7 @@ const validationSchema = Yup.object({
 const initialValues = {
     name: '', 
     webMetaTitle:'', 
-    images: [],
+    image: null,
 };
 
 // ✅ Main Form Component
@@ -59,6 +60,11 @@ const CategoryForm = () => {
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
+    const {
+            createOrUpdateCategory,
+            categorie
+        } = useCreateOrUpdateCategory();
+ 
     return (
         <Container maxWidth="md" sx={{ py: { xs: 6, md: 10 } }}>
             <StyledPaper>
@@ -75,10 +81,7 @@ const CategoryForm = () => {
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
-                    onSubmit={(values, { resetForm }) => {
-                        console.log(values);
-                        resetForm();
-                    }}
+                    onSubmit={createOrUpdateCategory}
                 >
                     {({ values, setFieldValue }) => (
                         <Form>
@@ -90,7 +93,7 @@ const CategoryForm = () => {
 
                                 <Grid item xs={12}>
                                     <CustomImageUpload
-                                        name="images"
+                                        name="image"
                                         onlyOneImage
                                         label="Images du produit"
                                     />
