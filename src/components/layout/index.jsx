@@ -1,6 +1,5 @@
 import { RouterProvider } from "react-router-dom";
-import React, { memo } from "react";
-import { Container } from "@mui/material";
+import React, { memo } from "react"; 
 import { router } from "./router";
 
 /**

@@ -26,6 +26,7 @@ export const useGetCategorieById = ()=>{
             categorie
         }
     };
+    
 export const useGetAllCategories = ()=>{
 
     const [categories,setAllCategories] = useState(null);

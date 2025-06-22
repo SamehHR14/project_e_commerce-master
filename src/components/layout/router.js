@@ -15,6 +15,7 @@ const ProductDetails = lazy(() => import("../../pages/productDetails/index"));
 const PrivateRoute = lazy(() => import("./private/index"));
 const ProductForm = lazy(() => import("../../pages/productDetails/form"));
 const CategoryForm = lazy(() => import("../../pages/category/form"));
+const LoginForm = lazy(() => import("../../pages/login/index"));
 
 
 /**
@@ -63,9 +64,9 @@ export const router = createBrowserRouter([
         element: <Suspense fallback={<LinearProgress color="inherit" />}> <Nouveau /> </Suspense>,
       },
       {
-        path: '/page/signIn',
-        // element: <Suspense fallback={<LinearProgress color="inherit" />}> <SignInPage /> </Suspense>,
-      },
+        path: '/signIn',
+      element: <Suspense fallback={<LinearProgress color="inherit" />}> <LoginForm /> </Suspense>,
+      },  
       {
         path: '/product/:name', // New route for product details
         element: <Suspense fallback={<LinearProgress color="inherit" />}> <ProductDetails /> </Suspense>,

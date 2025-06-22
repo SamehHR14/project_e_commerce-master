@@ -15,7 +15,8 @@ import * as Yup from 'yup';
 import CustomTextField from 'components/form/input';
 import CustomSelect from 'components/form/select';
 import CustomImageUpload from 'components/form/imageUpload';
-import EditorDraft from 'components/form/richTextEditor';
+import EditorDraft from 'components/form/richTextEditor'; 
+import { useParams } from 'react-router-dom';
 
 // ⬛ Paper Styling
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -66,6 +67,8 @@ const ProductForm = () => {
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
+   const {id} = useParams();
+
     return (
         <Container maxWidth="md" sx={{ py: { xs: 6, md: 10 } }}>
             <StyledPaper>
@@ -76,7 +79,7 @@ const ProductForm = () => {
                     fontWeight="bold"
                     color="text.primary"
                 >
-                    Ajouter un produit
+                    {`${id ? 'Modifier' : 'Ajouter'} un produit`}
                 </Typography>
 
                 <Formik

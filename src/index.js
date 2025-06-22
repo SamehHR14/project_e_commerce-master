@@ -4,13 +4,16 @@ import App from './App';
 import { render } from "react-dom";      
 import { CustomThemeProvider } from "./context/ThemeContext";
 import { LoadingContextProvider } from 'context/LoadingContext';
+import { AuthProvider } from 'context/AuthContext';
    
 
 render(
   <React.StrictMode>
        <CustomThemeProvider> 
         <LoadingContextProvider>
+          <AuthProvider>
        <App />
+       </AuthProvider>
        </LoadingContextProvider>
        </CustomThemeProvider>
   </React.StrictMode>,

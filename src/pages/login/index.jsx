@@ -7,18 +7,22 @@ import {
     Paper,
     useMediaQuery,
     useTheme,
+    IconButton,
+    InputAdornment,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
-import CustomTextField from 'components/form/input'; 
-import CustomImageUpload from 'components/form/imageUpload'; 
-import { useCreateOrUpdateCategory, useGetCategorieById } from 'services/hooks/category';
-import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import CustomTextField from 'components/form/input'; // يجب أن يدعم InputProps
 
-//  Paper Styling
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useAuth } from 'context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
+// Styled components
 const StyledPaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(6),
     borderRadius: 18,
@@ -26,7 +30,6 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
     backgroundColor: '#fff',
 }));
 
-// Button Styling
 const StyledButton = styled(Button)(({ theme }) => ({
     backgroundColor: '#caac71',
     color: '#fff',
@@ -44,39 +47,31 @@ const StyledButton = styled(Button)(({ theme }) => ({
     },
 }));
 
-// Validation Schema
+// Validation
 const validationSchema = Yup.object({
-    name: Yup.string().required('Le nom est requis'), 
-    images: Yup.array().min(1, 'Veuillez ajouter au moins une image'),
+    email: Yup.string().email('Email invalide').required('Email requis'),
+   // password: Yup.string().min(6, 'Mot de passe trop court').required('Mot de passe requis'),
 });
- 
-// Main Form Component
-const CategoryForm = () => {
+
+const LoginForm = () => {
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
-  let { id } = useParams();
-    const {
-            createOrUpdateCategory 
-        } = useCreateOrUpdateCategory();
- const {
-            getCategorie,
-            categorie
-        } = useGetCategorieById();
-        const [initForm,setInitForm] = useState({
-    name: '', 
-    webMetaTitle:'', 
-    image: null,
-});
-
-useEffect(()=>{
-  if(id)
-    getCategorie(id);
-},[id])
- useEffect(()=>{
-  if(categorie)
-    setInitForm(categorie);
-},[categorie])
-
+    const { isAuth,
+    login,
+    } = useAuth();
+      const navigate = useNavigate();  
+    const [showPassword, setShowPassword] = useState(false);
+const initForm = {
+        email: '',
+        password: '',
+    };
+    
+useEffect(() => {
+    if (isAuth) {
+        navigate('/');
+    }
+}, [isAuth, navigate]);
+    
     return (
         <Container maxWidth="md" sx={{ py: { xs: 6, md: 10 } }}>
             <StyledPaper>
@@ -87,45 +82,45 @@ useEffect(()=>{
                     fontWeight="bold"
                     color="text.primary"
                 >
-                    {`${id ? 'Modifier' : 'Ajouter'} une catégorie`}
+                    Connexion
                 </Typography>
 
                 <Formik
                     initialValues={initForm}
                     validationSchema={validationSchema}
                     enableReinitialize
-                    onSubmit={createOrUpdateCategory}
+                    onSubmit={login}
                 >
                     {() => (
                         <Form>
                             <Grid container spacing={4}>
-
                                 <Grid item xs={12}>
-                                    <CustomTextField name="name" label="Nom de la catégorie" />
-                                </Grid> 
-
-                                <Grid item xs={12}>
-                                    <CustomImageUpload
-                                        name="image"
-                                        onlyOneImage
-                                        label="Images du produit"
-                                    />
+                                    <CustomTextField name="email" label="Email" />
                                 </Grid>
 
                                 <Grid item xs={12}>
                                     <CustomTextField
-                                        name="webMetaTitle"
-                                        multiline
-                                        rows={4}
-                                        label="Meta titre"
-                                        placeholder="Saisir le titre SEO de la page"
+                                        name="password"
+                                        label="Mot de passe"
+                                        type={showPassword ? 'text' : 'password'}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <IconButton
+                                                        onClick={() => setShowPassword(prev => !prev)}
+                                                        edge="end"
+                                                    >
+                                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            ),
+                                        }}
                                     />
                                 </Grid>
- 
 
                                 <Grid item xs={12}>
                                     <StyledButton type="submit" fullWidth>
-                                        Enregistrer
+                                        Se connecter
                                     </StyledButton>
                                 </Grid>
                             </Grid>
@@ -137,4 +132,4 @@ useEffect(()=>{
     );
 };
 
-export default CategoryForm;
+export default LoginForm;

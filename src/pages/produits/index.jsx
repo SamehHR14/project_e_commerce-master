@@ -1,6 +1,6 @@
 import { Button, Checkbox, Container, Divider, Grid, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import HeaderCategory from "components/swiperSlide/headerCategory";
-import { memo, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
 import tv from '../../images/tv6.png';
 import table from '../../images/tv6.png';
@@ -24,6 +24,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';   
 import IconButton from '@mui/material/IconButton';
 import CommentIcon from '@mui/icons-material/Comment';
+import ScrollReveal from 'scrollreveal';
 
 const category = {
    
@@ -199,8 +200,7 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-const Produits = () => {
-
+const Produits = () => { 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -223,6 +223,20 @@ const Produits = () => {
 
     setChecked(newChecked);
   };
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      ScrollReveal().reveal('.reveal-card', {
+        duration: 800,
+        distance: '50px',
+        easing: 'ease-in-out',
+        origin: 'bottom',
+        interval: 100, 
+      });
+    }
+  }, []);
+
     return (<>
         <HeaderCategory />
         <Container>
@@ -253,6 +267,7 @@ const Produits = () => {
         variant="text"
         sx={{ color: '#103a3a',
                             backgroundColor:'transparent',
+                            textTransform:'none',
                         '&:hover': {
                             backgroundColor:'transparent',
                             textDecoration: 'underline',
@@ -307,13 +322,11 @@ const Produits = () => {
             </Grid>
 
 
-              {allProducts.map((category, index) =>{
-
-                return (<Grid item xs={12} sm={6} md={4} lg={3}>
-                  <ArticleCard {...category} />
-                </Grid>
-                )})
-              }
+          {allProducts.map((category, index) => (
+        <Grid item xs={12} sm={6} md={4} lg={3} key={category.id || index} className="reveal-card">
+          <ArticleCard {...category} />
+        </Grid>
+      ))}
 
         </Grid>
         </Container>

@@ -30,7 +30,9 @@ const handleChange = (event) => {
 };
 
   const handleDelete = (indexToDelete) => {
-    const updatedFiles = field.value.filter((_, index) => index !== indexToDelete); 
+      let updatedFiles =  null;
+    if (!onlyOneImage)
+       updatedFiles = field.value.filter((_, index) => index !== indexToDelete); 
     setFieldValue(name, updatedFiles);
   };
   useEffect(()=>{ 

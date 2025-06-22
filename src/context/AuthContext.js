@@ -5,17 +5,11 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const [user, setUser] =  useState(null);  
 
-  useEffect(() => { 
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []); 
  
 
-  const login = async (email, password) => {
+  const login = async ({email, password}) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -31,7 +25,7 @@ export function AuthProvider({ children }) {
 
       if (data.token) { 
         setUser(data.user);
-        localStorage.setItem('user',JSON.stringify(data.user));
+        localStorage.setItem('user',JSON.stringify(data?.user));
         localStorage.setItem('token',data.token);  
         window.location.reload(false);
       
@@ -47,7 +41,7 @@ export function AuthProvider({ children }) {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
+        await fetch(`${process.env.REACT_APP_API_URL}/api/users/auth/logout`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -66,10 +60,10 @@ export function AuthProvider({ children }) {
 
   const value = {
     user,
-    setUser,
-    loading,
+    setUser, 
     login,
     logout,  
+    isAuth:!!localStorage.getItem('token')
      
   }; 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
