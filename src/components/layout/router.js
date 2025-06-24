@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom";
-import { Box, LinearProgress, Container } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { createBrowserRouter } from 'react-router-dom';
 import { lazy, Suspense } from "react";
 import Header from "../header";
 import Footer from "../footer";
+import { LoadingFullback } from "components/progress";
 
 // Lazily load pages
 const HomePages = lazy(() => import("../../pages/home/index"));
@@ -45,35 +46,19 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Suspense fallback={<LinearProgress color="inherit" />}> <HomePages /> </Suspense>,
+        element: <Suspense fallback={<LoadingFullback color="inherit" />}> <HomePages /> </Suspense>,
       },
       {
         path: '/contact',
-        element: <Suspense fallback={<LinearProgress color="inherit" />}> <ContactPages /> </Suspense>,
+        element: <Suspense fallback={<LoadingFullback color="inherit" />}> <ContactPages /> </Suspense>,
       },
       {
         path: '/a-propos',
-        element: <Suspense fallback={<LinearProgress color="inherit" />}> <Apropos /> </Suspense>,
-      },
-      {
-        path: '/produit',
-        element: <Suspense fallback={<LinearProgress color="inherit" />}> <Produits /> </Suspense>,
-      },
-      {
-        path: '/nouveautes',
-        element: <Suspense fallback={<LinearProgress color="inherit" />}> <Nouveau /> </Suspense>,
-      },
-      {
-        path: '/signIn',
-      element: <Suspense fallback={<LinearProgress color="inherit" />}> <LoginForm /> </Suspense>,
-      },  
-      {
-        path: '/product/:name', // New route for product details
-        element: <Suspense fallback={<LinearProgress color="inherit" />}> <ProductDetails /> </Suspense>,
+        element: <Suspense fallback={<LoadingFullback color="inherit" />}> <Apropos /> </Suspense>,
       },{
-  path: 'productForm',
+  path: 'produit',
   element: (
-    <Suspense fallback={<LinearProgress color="inherit" />}>
+    <Suspense fallback={<LoadingFullback color="inherit" />}>
       <Outlet />
     </Suspense>
   ),
@@ -81,7 +66,44 @@ export const router = createBrowserRouter([
     {
       index: true, 
       element: (
-        <Suspense fallback={<LinearProgress color="inherit" />}>
+        <Suspense fallback={<LoadingFullback color="inherit" />}>
+          <Produits />
+        </Suspense>
+      ),
+    },
+    {
+      path: ':id',
+      element: (
+        <Suspense fallback={<LoadingFullback color="inherit" />}>
+          <Produits />
+        </Suspense>
+      ),
+    }, 
+  ],
+} ,
+      {
+        path: '/nouveautes',
+        element: <Suspense fallback={<LoadingFullback color="inherit" />}> <Nouveau /> </Suspense>,
+      },
+      {
+        path: '/signIn',
+      element: <Suspense fallback={<LoadingFullback color="inherit" />}> <LoginForm /> </Suspense>,
+      },  
+      {
+        path: '/product/:name', // New route for product details
+        element: <Suspense fallback={<LoadingFullback color="inherit" />}> <ProductDetails /> </Suspense>,
+      },{
+  path: 'productForm',
+  element: (
+    <Suspense fallback={<LoadingFullback color="inherit" />}>
+      <Outlet />
+    </Suspense>
+  ),
+  children: [
+    {
+      index: true, 
+      element: (
+        <Suspense fallback={<LoadingFullback color="inherit" />}>
           <ProductForm />
         </Suspense>
       ),
@@ -89,7 +111,7 @@ export const router = createBrowserRouter([
     {
       path: ':id',
       element: (
-        <Suspense fallback={<LinearProgress color="inherit" />}>
+        <Suspense fallback={<LoadingFullback color="inherit" />}>
           <ProductForm />
         </Suspense>
       ),
@@ -98,7 +120,7 @@ export const router = createBrowserRouter([
 },{
   path: 'categoryForm',
   element: (
-    <Suspense fallback={<LinearProgress color="inherit" />}>
+    <Suspense fallback={<LoadingFullback color="inherit" />}>
       <Outlet />
     </Suspense>
   ),
@@ -106,7 +128,7 @@ export const router = createBrowserRouter([
     {
       index: true, 
       element: (
-        <Suspense fallback={<LinearProgress color="inherit" />}>
+        <Suspense fallback={<LoadingFullback color="inherit" />}>
           <CategoryForm />
         </Suspense>
       ),
@@ -114,7 +136,7 @@ export const router = createBrowserRouter([
     {
       path: ':id',
       element: (
-        <Suspense fallback={<LinearProgress color="inherit" />}>
+        <Suspense fallback={<LoadingFullback color="inherit" />}>
           <CategoryForm />
         </Suspense>
       ),

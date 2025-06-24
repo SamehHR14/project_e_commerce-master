@@ -8,11 +8,10 @@ const containerStyle = {
 const center = {
   lat: 48.8584, // Example: Eiffel Tower
   lng: 2.2945
-};
-
+}; 
 function MyMapSection() {
   return (
-    <LoadScript googleMapsApiKey="AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao">
+    <LoadScript googleMapsApiKey="AIzaSyCx0H0yTPoXsFuDfYLUCOn1ePnW4Hq0A8M">
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}

@@ -15,8 +15,11 @@ import * as Yup from 'yup';
 import CustomTextField from 'components/form/input';
 import CustomSelect from 'components/form/select';
 import CustomImageUpload from 'components/form/imageUpload';
-import EditorDraft from 'components/form/richTextEditor'; 
-import { useParams } from 'react-router-dom';
+import EditorDraft from 'components/form/richTextEditor';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useGetAllCategories } from 'services/hooks/category';
+import { useCreateOrUpdateProduct } from 'services/hooks/products';
 
 // ⬛ Paper Styling
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -52,22 +55,45 @@ const validationSchema = Yup.object({
     images: Yup.array().min(1, 'Veuillez ajouter au moins une image'),
 });
 
-// ✅ Initial Form Values
-const initialValues = {
-    name: '',
-    description: '<p></p>',
-    webMetaDescription:'',
-    webMetaTitle:'',
-    categoryId: '',
-    images: [],
-};
+
 
 // ✅ Main Form Component
 const ProductForm = () => {
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
-   const {id} = useParams();
+    const [initialValues, setInitialValues] = useState({
+        name: '',
+        description: '<p></p>',
+        webMetaDescription: '',
+        webMetaTitle: '',
+        categoryId: '',
+        images: [],
+    })
+    const {
+        createOrUpdateProduct,
+        product
+    } = useCreateOrUpdateProduct();
+
+    const {
+        getAllCategories,
+        categories
+    } = useGetAllCategories();
+
+
+    const { id } = useParams();
+    const navigate = useNavigate();
+    useEffect(() => {
+        getAllCategories();
+    }, []);
+
+
+
+    useEffect(() => {
+        if (product?.id || id)
+            navigate(`/productForm/${product?.id || id}`);
+    }, [product, id]);
+
 
     return (
         <Container maxWidth="md" sx={{ py: { xs: 6, md: 10 } }}>
@@ -85,10 +111,8 @@ const ProductForm = () => {
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
-                    onSubmit={(values, { resetForm }) => {
-                        console.log(values);
-                        resetForm();
-                    }}
+                    enableReinitialize
+                    onSubmit={createOrUpdateProduct}
                 >
                     {({ values, setFieldValue }) => (
                         <Form>
@@ -102,12 +126,7 @@ const ProductForm = () => {
                                     <CustomSelect
                                         name="categoryId"
                                         label="Catégorie"
-                                        options={[
-                                            { value: 'salon', label: 'Salon' },
-                                            { value: 'table', label: 'Table' },
-                                            { value: 'chaise', label: 'Chaise' },
-                                            { value: 'lit', label: 'Lit' },
-                                        ]}
+                                        options={categories.map((categorie) => ({ value: categorie.id, label: categorie.name }))}
                                     />
                                 </Grid>
 
@@ -117,7 +136,15 @@ const ProductForm = () => {
                                         label="Images du produit"
                                     />
                                 </Grid>
-
+                                <Grid item xs={12}>
+                                    <CustomTextField
+                                        name="shortDescription"
+                                        multiline
+                                        rows={3}
+                                        label="Description courte"
+                                        placeholder="Saisir une brève description du produit"
+                                    />
+                                </Grid>
                                 <Grid item xs={12}>
                                     <CustomTextField
                                         name="webMetaTitle"

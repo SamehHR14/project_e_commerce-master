@@ -1,30 +1,18 @@
 import { Button, Checkbox, Container, Divider, Grid, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import HeaderCategory from "components/swiperSlide/headerCategory";
-import { memo, useEffect, useRef, useState } from "react";
-
-import tv from '../../images/tv6.png';
-import table from '../../images/tv6.png';
-import buffet from '../../images/tv7.png';
-import bed from '../../images/tv4.png';
-import table2 from '../../images/tv8.png';  
-import bannerImage from '../../images/home_header.jpg'; // Assurez-vous que le chemin est correct
-import MyMapSection from 'components/googleMaps';
+import { memo, useEffect, useRef, useState } from "react"; 
 import ArticleCard from "components/articleCard";
 
 import { styled, alpha } from '@mui/material/styles'; 
-import Menu from '@mui/material/Menu'; 
-import MenuItem from '@mui/material/MenuItem';
-import EditIcon from '@mui/icons-material/Edit'; 
-import ArchiveIcon from '@mui/icons-material/Archive';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import Menu from '@mui/material/Menu';  
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';   
-import IconButton from '@mui/material/IconButton';
-import CommentIcon from '@mui/icons-material/Comment';
+import ListItem from '@mui/material/ListItem';    
 import ScrollReveal from 'scrollreveal';
+import { useGetAllCategories } from "services/hooks/category";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGetAllProducts } from "services/hooks/products";
 
 const category = {
    
@@ -32,12 +20,7 @@ const category = {
      id: 1,
      title: 'Catégorie 1',
 
-};
-const categories = [
-  { id: 1, title: 'Category 1' },
-  { id: 2, title: 'Category 2' },
-  { id: 3, title: 'Category 3' },
-];
+}; 
 const allProducts = [
   //tv
   {
@@ -203,25 +186,27 @@ const StyledMenu = styled((props) => (
 const Produits = () => { 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
+    let { id } = useParams();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
-  };
-  const [checked, setChecked] = useState([0]);
+  }; 
 
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+    const {
+        getAllCategories,
+        categories
+    } = useGetAllCategories();
+ const {getAllProducts,
+    products} = useGetAllProducts();
+  const handleToggle = (value) => () => {   
+    handleClose();
+    setTimeout(()=>{ 
+       navigate(`/produit/${value}`);
+    },300)
 
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
   };
   const containerRef = useRef(null);
 
@@ -236,6 +221,14 @@ const Produits = () => {
       });
     }
   }, []);
+
+  useEffect(() => {
+  getAllCategories(); 
+  }, []);
+
+  useEffect(()=>{
+     getAllProducts(id)
+  },[id])
 
     return (<>
         <HeaderCategory />
@@ -289,40 +282,27 @@ const Produits = () => {
         onClose={handleClose}
       >
           <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      {categories.map((value) => {
-        const labelId = `checkbox-list-label-${value}`;
+      {categories.map((value) => { 
 
         return (
           <ListItem
-            key={value} 
+            key={value.id} 
             disablePadding
           >
-            <ListItemButton role={undefined} onClick={handleToggle(value.id)} dense>
-              <ListItemIcon>
-                <Checkbox
-                  edge="start"
-                  checked={checked.indexOf(value.id) !== -1}
-                  tabIndex={-1}
-                  disableRipple
-                  inputProps={{ 'aria-labelledby': value.title }}
-                />
-              </ListItemIcon>
-              <ListItemText id={ value.id } primary={ value.title } />
+            <ListItemButton role={undefined} onClick={handleToggle(value.id)} dense> 
+              <ListItemText id={ value.id } primary={ value.name } />
             </ListItemButton>
           </ListItem>
         );
       })}
     </List>
       </StyledMenu>
-    </div>
-
-
-
+    </div> 
                   </Grid> 
             </Grid>
 
 
-          {allProducts.map((category, index) => (
+          {products.map((category, index) => (
         <Grid item xs={12} sm={6} md={4} lg={3} key={category.id || index} className="reveal-card">
           <ArticleCard {...category} />
         </Grid>

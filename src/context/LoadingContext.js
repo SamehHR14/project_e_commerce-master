@@ -7,7 +7,7 @@ export const LoadingDialog = ({ open }) => {
   return (
     <Backdrop
       sx={{
-        color: "#d32f2f",  
+        color: "#744e20",  
         zIndex: (theme) => theme.zIndex.modal + 10,
         backgroundColor: "rgba(85, 85, 85, 0.1)",
       }}
@@ -19,7 +19,7 @@ export const LoadingDialog = ({ open }) => {
 };
 
 export function LoadingContextProvider({ children }) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(0);
 
   return (
     <LoadingContext.Provider value={{ loading, setLoading }}>

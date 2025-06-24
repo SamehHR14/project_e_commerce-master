@@ -14,8 +14,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
-import logo from '../../images/logo.png'; 
+import { Link, useNavigate } from 'react-router-dom';
+import logo from '../../images/logo.png';
+import { Avatar, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
+import { Logout } from '@mui/icons-material';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { useAuth } from 'context/AuthContext';
 
 const drawerWidth = 240;
 
@@ -46,11 +50,43 @@ const styledLink = {
 function DrawerAppBar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const { isAuth, logout } = useAuth();
 
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
+  const navigate = useNavigate();
+
+  let navItemsAdmin = React.useMemo(() => {
+    return isAuth ? [{
+      label: 'Ajouter une catégorie',
+      action: () => {
+        setTimeout(() => navigate(`/categoryForm`), 300);
+        handleDrawerToggle();
+      }
+    }, {
+      label: 'Ajouter un produit',
+      action: () => {
+        setTimeout(() => navigate(`/productForm`), 300);
+        handleDrawerToggle();
+
+      }
+
+    }, {
+      label: 'Déconnexion',
+      action: logout
+    }] : [];
+  }, [isAuth]);
   const drawer = (
     <Box
       onClick={handleDrawerToggle}
@@ -73,6 +109,15 @@ function DrawerAppBar(props) {
             </ListItemButton>
           </ListItem>
         ))}
+        {
+          navItemsAdmin.map(({ label, action }) => (
+            <ListItem key={label} disablePadding>
+              <ListItemButton onClick={action} sx={{ textAlign: 'center', ...styledLink }}>
+                <ListItemText primary={label} />
+              </ListItemButton>
+            </ListItem>
+          ))
+        }
       </List>
     </Box>
   );
@@ -112,6 +157,79 @@ function DrawerAppBar(props) {
               </Button>
             ))}
           </Box>
+          {isAuth && <> <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+            <Tooltip title="Settings">
+              <IconButton
+                onClick={handleClick}
+                size="small"
+                sx={{ ml: 2 }}
+                aria-controls={open ? 'account-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+              >
+                <Avatar sx={{ width: 32, height: 32 }}><SettingsIcon /></Avatar>
+              </IconButton>
+            </Tooltip>
+          </Box>
+            <Menu
+              anchorEl={anchorEl}
+              id="account-menu"
+              open={open}
+              onClose={handleClose}
+              onClick={handleClose}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: 'visible',
+                  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                  mt: 1.5,
+                  '& .MuiAvatar-root': {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: 1,
+                  },
+                  '&::before': {
+                    content: '""',
+                    display: 'block',
+                    position: 'absolute',
+                    top: 0,
+                    right: 14,
+                    width: 10,
+                    height: 10,
+                    bgcolor: 'background.paper',
+                    transform: 'translateY(-50%) rotate(45deg)',
+                    zIndex: 0,
+                  },
+                },
+              }}
+              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            >
+              <MenuItem onClick={(e) => {
+                setTimeout(() => navigate(`/categoryForm`), 300);
+
+                handleClose(e)
+              }}>
+                Ajouter une catégorie
+              </MenuItem>
+              <MenuItem onClick={(e) => {
+                setTimeout(() => navigate(`/productForm`), 300);
+                handleClose(e)
+              }}>
+                Ajouter un produit
+              </MenuItem>
+              <Divider />
+              <MenuItem onClick={(e) => {
+                logout();
+                handleClose(e)
+              }}>
+                <ListItemIcon>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
+                Déconnexion
+              </MenuItem>
+            </Menu></>}
         </Toolbar>
       </AppBar>
 

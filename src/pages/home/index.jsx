@@ -1,6 +1,6 @@
 import { Box, Typography, Container, Grid, Button, Zoom, Tooltip, IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 // Images
@@ -12,7 +12,8 @@ import cabinet3 from '../../images/cabinet3.png';
 import dentaire1 from '../../images/dentaire1.png';
 import HeaderCategory from 'components/swiperSlide/headerCategory';
 import { Edit } from '@mui/icons-material';
-import { useAuth } from 'context/AuthContext';
+import { useAuth } from 'context/AuthContext';  
+import { useGetAllCategories } from 'services/hooks/category';
 
 const bannerImage = "/assets/home.webp";
 
@@ -44,6 +45,13 @@ const HomePages = () => {
   const { isAuth } = useAuth();
   const navigate = useNavigate();
 
+    const {
+        getAllCategories,
+        categories
+    } = useGetAllCategories();
+    useEffect(()=>{
+      getAllCategories();
+    },[])
 const CustomCategory = ({ product }) => {
   const [show, setShow] = useState(false);
 
@@ -52,10 +60,7 @@ const CustomCategory = ({ product }) => {
       onMouseOver={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
     >
-      <Box
-        component={RouterLink}
-        to={product.path}
-        state={{ product }}
+      <Box 
         sx={{
           position: 'relative',
           display: 'block',
@@ -72,6 +77,9 @@ const CustomCategory = ({ product }) => {
             transform: 'translateY(0)',
           },
         }}
+      onClick={()=>{ 
+              navigate(`/produit${product.id ? `/${product.id}` :'' }`);
+      }}
       >
         {isAuth && (
           <IconButton
@@ -90,7 +98,7 @@ const CustomCategory = ({ product }) => {
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              navigate(`/categoryForm/${product.id}`);
+              navigate(`/categoryForm${product.id ? `/${product.id}` :'' }`);
             }}
           >
             <Edit />
@@ -100,7 +108,7 @@ const CustomCategory = ({ product }) => {
         <Box
           className="image"
           sx={{
-            backgroundImage: product.image ? `url(${product.image})` : 'none',
+            backgroundImage: product.imageUrl ? `url(${product.imageUrl})` : 'none',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             width: '100%',
@@ -133,7 +141,7 @@ const CustomCategory = ({ product }) => {
               mb: 1,
             }}
           >
-            {product.title || 'Produit sans nom'}
+            {product.name || ''}
           </Typography>
           <Button
             variant="outlined"
@@ -147,6 +155,10 @@ const CustomCategory = ({ product }) => {
                 backgroundColor: 'rgba(255,255,255,0.1)',
               },
             }}
+            onClick={()=>{
+              navigate(`/produit${product.id ? `/${product.id}` :'' }`);
+
+            }}
           >
             Découvrir
           </Button>
@@ -155,6 +167,8 @@ const CustomCategory = ({ product }) => {
     </Grid>
   );
 };
+
+
   return (
     <Box>
       <HeaderCategory withoutTitle />
@@ -193,10 +207,10 @@ const CustomCategory = ({ product }) => {
         </Typography>
 
         <Grid container spacing={4} justifyContent="center">
-          {allProducts.map((product, index) => (
-            <CustomCategory product={product} index={index} />
+          {categories.map((categorie, index) => (
+            <CustomCategory product={categorie} index={index} />
           ))}
-        </Grid>
+        </Grid> 
       </Container>
     </Box>
   );

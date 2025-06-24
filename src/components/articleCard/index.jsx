@@ -10,15 +10,15 @@ import {
   Zoom
 } from '@mui/material';
 import { useAuth } from 'context/AuthContext';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-export default function ArticleCard({ image,id, title, dimension, price, oldPrice, promo }) {
+import noImage from "images/no-image.png"
+export default function ArticleCard({ images,id, name, dimension, }) {
   const { isAuth } = useAuth();
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
   return (
-    <Card sx={{ maxWidth: 345, boxShadow: 0 }}
+    <Card sx={{ maxWidth: 345, boxShadow: 0,cursor:'pointer' }}
       onMouseOver={() => setShow(true)}
       onMouseLeave={() => setShow(false)}>
       <Box sx={{ position: 'relative' }}>
@@ -50,8 +50,8 @@ export default function ArticleCard({ image,id, title, dimension, price, oldPric
         <CardMedia
           component="img"
           height="200"
-          image={image || "https://source.unsplash.com/random/800x600?article"}
-          alt={title || "Produit"}
+          image={images?.[0]?.imageUrl || noImage}
+          alt={name || "Produit"}
           sx={{
             objectFit: 'cover', 
             transition: 'transform 0.4s ease',
@@ -71,27 +71,13 @@ export default function ArticleCard({ image,id, title, dimension, price, oldPric
             textTransform: 'capitalize',
           }}
         >
-          {title || ""}
+          {name || ""}
         </Typography>
         {dimension && (
           <Typography variant="body2" color="text.secondary" sx={{ marginTop: 0.5 }}>
             {dimension}
           </Typography>
-        )}
-        <Box display="flex" alignItems="center" gap={1} mt={1}>
-          <Typography variant="body1" fontWeight="bold">
-
-          </Typography>
-          {oldPrice && (
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ textDecoration: 'line-through' }}
-            >
-
-            </Typography>
-          )}
-        </Box>
+        )} 
       </CardContent>
 
     </Card>

@@ -44,10 +44,10 @@ if (!field.value) {
   let objectUrls = [];
 
   if (onlyOneImage) {
-    const url = URL.createObjectURL(field.value);
+    const url = field.value?.imageUrl || URL.createObjectURL(field.value);
     objectUrls.push(url);
   } else if (Array.isArray(field.value)) {
-    objectUrls = field.value.map(file => URL.createObjectURL(file));
+    objectUrls = field.value.map(file => file?.imageUrl || URL.createObjectURL(file));
   }
 
   setPreviews(objectUrls);

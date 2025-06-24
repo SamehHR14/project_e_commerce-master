@@ -1,14 +1,19 @@
-import { createContext, useContext, useState, useEffect } from "react"; 
+import { createContext, useContext, useState, useEffect } from "react";
+import { useLoadingContext } from "./LoadingContext";
+import { useHandlerErrors } from "services/hooks";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] =  useState(null);  
+  const [user, setUser] = useState(null);
+  const { setLoading } = useLoadingContext();
 
- 
+const {onSuccess,onError} = useHandlerErrors();
 
-  const login = async ({email, password}) => {
+
+  const login = async ({ email, password }) => {
     try {
+      setLoading((old) => old + 1);
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users/login`, {
         method: 'POST',
         headers: {
@@ -19,53 +24,42 @@ export function AuthProvider({ children }) {
 
       const data = await response.json();
 
-      if (!response.ok) { 
-        throw new Error(data.message || "Email ou mot de passe incorrect");
+      if (!response.ok) {
+              onError(typeof data?.message === 'string' ? data?.message : 'Email ou mot de passe incorrect'); 
       }
 
-      if (data.token) { 
+      if (data.token) {
         setUser(data.user);
-        localStorage.setItem('user',JSON.stringify(data?.user));
-        localStorage.setItem('token',data.token);  
+        localStorage.setItem('user', JSON.stringify(data?.user));
+        localStorage.setItem('token', data.token);
         window.location.reload(false);
-      
+
         return data;
       }
-    } catch (error) {
-      console.error('Erreur de connexion:', error);
-      throw error;
+    } catch (error) { 
+              onError(typeof error?.message === 'string' ? error?.message : 'Opération echouée');
+   
+    } finally {
+      setLoading((old) => old - 1);
     }
   };
 
   const logout = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (token) {
-        await fetch(`${process.env.REACT_APP_API_URL}/api/users/auth/logout`, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-        });
-      }
-    } catch (error) { 
-      console.error("Erreur lors de la déconnexion:", error);
-    } finally { 
-      setUser(null);
-      localStorage.clear() 
-       window.location.reload(false);
-    }
+    setUser(null);
+    localStorage.clear();
+    setTimeout(() => {
+      window.location.reload(false);
+    }, 300)
   };
 
   const value = {
     user,
-    setUser, 
+    setUser,
     login,
-    logout,  
-    isAuth:!!localStorage.getItem('token')
-     
-  }; 
+    logout,
+    isAuth: !!localStorage.getItem('token')
+
+  };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
