@@ -11,11 +11,17 @@ import { useGetAllCategories } from 'services/hooks/category';
 import logo from '../../../images/logo.png';
 
 
+const categories = [
+  { id: 1, name: 'Category 1', imageUrl: 'https://habitat-main.myshopify.com/cdn/shop/files/slide-01.webp?v=1652267956&width=2560' },
+  { id: 2, name: 'Category 2', imageUrl: 'https://habitat-main.myshopify.com/cdn/shop/files/slide-02.webp?v=1652268557&width=2560' },
+  { id: 3, name: 'Category 3', imageUrl: 'https://habitat-main.myshopify.com/cdn/shop/files/slide-03.webp?v=1652268583&width=2560' }, 
+];
+
 
  
 
 export default function HeaderCategory({withoutTitle,listImages}) {
-
+/*
     const {
         getAllCategories,
         categories
@@ -24,7 +30,7 @@ useEffect(()=>{
   if(!listImages)
 getAllCategories();
 },[])
-
+*/
   return (
 <Box width={'100%'} 
 sx={{ 
