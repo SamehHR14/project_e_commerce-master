@@ -14,20 +14,11 @@ import HeaderCategory from 'components/swiperSlide/headerCategory';
 import { Edit } from '@mui/icons-material';
 import { useAuth } from 'context/AuthContext';  
 import { useGetAllCategories } from 'services/hooks/category';
+import imageHeader from 'images/imageheader.png'
 
 const bannerImage = "/assets/home.webp";
-
-const allProducts = [
-  { title: 'Meubles TV', image: tv, path: '/product/meubles-tv', price: '599.00' },
-  { title: 'Revêtement mural', image: table, path: '/product/revetement-mural', price: '799.00' },
-  { title: 'Aménagement boutique', image: buffet, path: '/product/amenagement-boutique', price: '1299.00' },
-  { title: 'Cuisine', image: bed, path: '/product/cuisine', price: '1999.00' },
-  { title: 'Cabinet Médical', image: cabinet3, path: '/product/cabinet-medical', price: '1499.00' },
-  { title: 'Cabinet Dentaire', image: dentaire1, path: '/product/cabinet-dentaire', price: '1099.00' },
-];
-
-const FullWidthBanner = styled(Box)({
-  width: '100vw',
+ const FullWidthBanner = styled(Box)(({ theme }) => ({
+  width: '100%',
   height: '76vh',
   backgroundImage: `url(${bannerImage})`,
   backgroundSize: 'cover',
@@ -36,11 +27,13 @@ const FullWidthBanner = styled(Box)({
   alignItems: 'center',
   justifyContent: 'center',
   color: '#fff',
+  textAlign: 'center',
   position: 'relative',
-  left: '50%',
-  marginLeft: '-50vw',
-});
-
+  [theme.breakpoints.down('sm')]: {
+    height: '50vh',
+    padding: '0 1rem',
+  },
+}));
 const HomePages = () => {
   const { isAuth } = useAuth();
   const navigate = useNavigate();
@@ -56,7 +49,7 @@ const CustomCategory = ({ product }) => {
   const [show, setShow] = useState(false);
 
   return (
-    <Grid item xs={12} sm={6} md={4}
+    <Grid item xs={12} sm={6}
       onMouseOver={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
     >
@@ -64,7 +57,7 @@ const CustomCategory = ({ product }) => {
         sx={{
           position: 'relative',
           display: 'block',
-          height: 250,
+          height: 300,
           overflow: 'hidden',
           borderRadius: 3,
           boxShadow: 4,
@@ -171,9 +164,32 @@ const CustomCategory = ({ product }) => {
 
   return (
     <Box>
-      <HeaderCategory withoutTitle />
+          <FullWidthBanner>
+      <Box sx={{ backgroundColor: 'rgba(0,0,0,0.5)', p: 4, borderRadius: 2 }}>
+        <Typography variant="h2" sx={{ fontWeight: 'bold', fontSize: { xs: '2rem', md: '3.5rem' }, mb: 2 }}>
+          Bienvenue chez NTBM
+        </Typography>
+        <Typography variant="h6" sx={{ fontStyle: 'italic', fontSize: { xs: '1rem', md: '1.25rem' } }}>
+          Nouvelles Techniques de Bois et de Métaux
+        </Typography>
+        <Button
+          variant="contained"
+          size="large"
+          sx={{ mt: 3 }}
+          component={RouterLink}
+          to="/contact"
+          color="warning"
+        >
+          Contactez-nous
+        </Button>
+      </Box>
+    </FullWidthBanner> 
 
       <Container sx={{ py: 8 }}>
+        
+
+ 
+
         <Typography
           variant="h5"
           sx={{

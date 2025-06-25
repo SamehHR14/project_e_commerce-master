@@ -14,13 +14,14 @@ import logo from '../../../images/logo.png';
 
  
 
-export default function HeaderCategory({withoutTitle}) {
+export default function HeaderCategory({withoutTitle,listImages}) {
 
     const {
         getAllCategories,
         categories
     } = useGetAllCategories();
 useEffect(()=>{
+  if(!listImages)
 getAllCategories();
 },[])
 
@@ -68,9 +69,7 @@ sx={{
         }}
         modules={[Pagination, Autoplay]} // ✅ Autoplay ajouté ici
       >
-
-
-        {categories.map((category) => (
+ {( listImages || categories).map((category) => (
           <SwiperSlide key={category.id}>
          <Box sx={{
 
@@ -103,7 +102,11 @@ sx={{
          </Box>   
           </SwiperSlide>
         ))} 
+ 
+
       </Swiper>
+ 
+    
     </Box>
   );
 }

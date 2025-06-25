@@ -64,6 +64,37 @@ export const useGetAllProducts = () => {
     products
   }
 };
+export const useGetLastAllProducts = () => {
+  const { setLoading } = useLoadingContext();
+  const { onError } = useHandlerErrors();
+
+  const [lastProducts, setLastAllProducts] = useState([]);
+
+  const getLastAllProducts = async () => {
+    try {
+      setLoading((old) => old + 1);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/products/last`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setLastAllProducts(data);
+      }
+    } catch (error) {
+      onError(typeof error === 'string' ? error : 'Opération echouée');
+    } finally {
+      setLoading((old) => old - 1);
+    }
+  };
+
+  return {
+    getLastAllProducts,
+    lastProducts
+  }
+};
+
 export const useGetAllProductsActif = () => {
   const { setLoading } = useLoadingContext();
   const {  onError } = useHandlerErrors();
