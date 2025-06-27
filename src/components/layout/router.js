@@ -17,6 +17,7 @@ const PrivateRoute = lazy(() => import("./private/index"));
 const ProductForm = lazy(() => import("../../pages/productDetails/form"));
 const CategoryForm = lazy(() => import("../../pages/category/form"));
 const LoginForm = lazy(() => import("../../pages/login/index"));
+const DeleteProduct = lazy(() => import("../../pages/productDetails/supForm"));
 
 
 /**
@@ -99,6 +100,8 @@ export const router = createBrowserRouter([
       <Outlet />
     </Suspense>
   ),
+
+
   children: [
     {
       index: true, 
@@ -117,7 +120,27 @@ export const router = createBrowserRouter([
       ),
     }, 
   ],
-},{
+},
+
+
+
+{
+  path: '/deleteProduct',
+  element: (
+    <Suspense fallback={<LoadingFullback color="inherit" />}>
+      <DeleteProduct/>
+    </Suspense>
+  ),
+},
+
+
+
+
+
+
+
+
+{
   path: 'categoryForm',
   element: (
     <Suspense fallback={<LoadingFullback color="inherit" />}>

@@ -231,7 +231,7 @@ const Produits = () => {
   }, [id])
 
   return (<>
-    <HeaderCategory />
+    <HeaderCategory  withoutTitle/>
  <Container sx={{ paddingTop: 5, paddingBottom: 5 }}>
       <Grid container spacing={2} sx={{ padding: '20px' }}>
         <Grid item xs={12} sx={{
