@@ -19,9 +19,8 @@ import EditorDraft from 'components/form/richTextEditor';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useGetAllCategories } from 'services/hooks/category';
-import { useCreateOrUpdateProduct } from 'services/hooks/products';
+import { useCreateOrUpdateProduct, useDeleteProduct, useDeleteProductImage, useGetProductById } from 'services/hooks/products';
 import DeleteIcon from '@mui/icons-material/Delete';
-import axios from 'axios';
 
 // ⬛ Paper Styling
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -72,45 +71,28 @@ const ProductForm = () => {
     images: [],
   });
 
-  const { createOrUpdateProduct, product } = useCreateOrUpdateProduct();
+  const { createOrUpdateProduct } = useCreateOrUpdateProduct();
   const { getAllCategories, categories } = useGetAllCategories();
+  const { deleteProduct } = useDeleteProduct();
+  const { deleteProductImage } = useDeleteProductImage();
+ const {
+        getProduct,
+        product
+    } = useGetProductById();
 
   useEffect(() => {
     getAllCategories();
   }, []);
 
-  // Remplir le formulaire en mode édition
   useEffect(() => {
-    if (id && product) {
-      setInitialValues({
-        name: product.name || '',
-        description: product.description || '<p></p>',
-        webMetaDescription: product.webMetaDescription || '',
-        webMetaTitle: product.webMetaTitle || '',
-        categoryId: product.categoryId || '',
-        images: product.images || [],
-      });
-    }
-  }, [id, product]);
+    if (product)setInitialValues(product)
+  }, [product?.id]);
 
-  useEffect(() => {
-    if (product?.id || id) navigate(`/productForm/${product?.id || id}`);
-  }, [product, id]);
-
-  //  Fonction de suppression
-  const handleDelete = async () => {
-    const confirmDelete = window.confirm('Voulez-vous vraiment supprimer ce produit ?');
-    if (!confirmDelete) return;
-
-    try {
-      await axios.delete(`http://localhost:3000/api/products/${id}`);
-      alert('Produit supprimé avec succès.');
-      navigate('/'); // Redirige vers la liste des produits après suppression
-    } catch (error) {
-      console.error('Erreur de suppression:', error);
-      alert('Erreur lors de la suppression du produit.');
-    }
-  };
+useEffect(()=>{
+if(id){
+getProduct(id)
+}
+},[id])
 
   return (
     <Container maxWidth="md" sx={{ py: { xs: 6, md: 10 } }}>
@@ -154,6 +136,18 @@ const ProductForm = () => {
                     name="images"
                     label="Images du produit"
                     replaceOnEdit={Boolean(id)}
+                    onDelete={(index,callback) => {
+                      let copy = [...(values?.images || [])];
+                      if (!copy?.[index]?.id) {
+                        copy[index] = null;
+                        setFieldValue('images', copy.filter(item => !!item));
+                        callback();
+                      } else
+                        deleteProductImage(copy?.[index]?.id).then(({ data }) => {
+                        setFieldValue('images', (data?.images || []));
+                        callback();
+                        })
+                    }}
                   />
                 </Grid>
 
@@ -209,7 +203,12 @@ const ProductForm = () => {
                       fullWidth
                       variant="outlined"
                       startIcon={<DeleteIcon />}
-                      onClick={handleDelete}
+                      onClick={() => deleteProduct(id).then(() => {
+
+                        setTimeout(() => {
+                          navigate(`/`);
+                        }, 300)
+                      })}
                       sx={{
                         backgroundColor: '#f44336',
                         color: '#fff',

@@ -12,9 +12,9 @@ import { styled } from '@mui/material/styles';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
-import CustomTextField from 'components/form/input'; 
-import CustomImageUpload from 'components/form/imageUpload'; 
-import { useCreateOrUpdateCategory, useGetCategorieById } from 'services/hooks/category';
+import CustomTextField from 'components/form/input';
+import CustomImageUpload from 'components/form/imageUpload';
+import { useCreateOrUpdateCategory, useDeleteCategoryImage, useGetCategorieById } from 'services/hooks/category';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
@@ -46,36 +46,38 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
 // Validation Schema
 const validationSchema = Yup.object({
-    name: Yup.string().required('Le nom est requis'), 
-    images: Yup.array().min(1, 'Veuillez ajouter au moins une image'),
+    name: Yup.string().required('Le nom est requis'),
 });
- 
+
 // Main Form Component
 const CategoryForm = () => {
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
-  let { id } = useParams();
+    let { id } = useParams();
     const {
-            createOrUpdateCategory 
-        } = useCreateOrUpdateCategory();
- const {
-            getCategorie,
-            categorie
-        } = useGetCategorieById();
-        const [initForm,setInitForm] = useState({
-    name: '', 
-    webMetaTitle:'', 
-    image: null,
-});
+        createOrUpdateCategory
+    } = useCreateOrUpdateCategory();
+    const {
+        getCategorie,
+        categorie
+    } = useGetCategorieById();
+    const [initForm, setInitForm] = useState({
+        name: '',
+        webMetaTitle: '',
+        image: null,
+    });
 
-useEffect(()=>{
-  if(id)
-    getCategorie(id);
-},[id])
- useEffect(()=>{
-  if(categorie)
-    setInitForm(categorie);
-},[categorie])
+    const {
+        deleteCategoryImage,
+    } = useDeleteCategoryImage();
+    useEffect(() => {
+        if (id)
+            getCategorie(id);
+    }, [id])
+    useEffect(() => {
+        if (categorie)
+            setInitForm(categorie);
+    }, [categorie])
 
     return (
         <Container maxWidth="md" sx={{ py: { xs: 6, md: 10 } }}>
@@ -96,19 +98,30 @@ useEffect(()=>{
                     enableReinitialize
                     onSubmit={createOrUpdateCategory}
                 >
-                    {() => (
+                    {({ setFieldValue, values }) => (
                         <Form>
                             <Grid container spacing={4}>
 
                                 <Grid item xs={12}>
                                     <CustomTextField name="name" label="Nom de la catégorie" />
-                                </Grid> 
+                                </Grid>
 
                                 <Grid item xs={12}>
                                     <CustomImageUpload
                                         name="image"
                                         onlyOneImage
                                         label="Images du produit"
+                                        onDelete={(e,callback) => {
+                                            let copy = values?.image;
+                                            if (typeof copy === 'string') {
+                                                setFieldValue('image', null);
+                                                callback()
+                                            } else
+                                                deleteCategoryImage(id).then(() => {
+                                                    setFieldValue('image', null);
+                                                callback()
+                                                })
+                                        }}
                                     />
                                 </Grid>
 
@@ -121,7 +134,7 @@ useEffect(()=>{
                                         placeholder="Saisir le titre SEO de la page"
                                     />
                                 </Grid>
- 
+
 
                                 <Grid item xs={12}>
                                     <StyledButton type="submit" fullWidth>

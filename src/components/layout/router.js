@@ -16,8 +16,7 @@ const ProductDetails = lazy(() => import("../../pages/productDetails/index"));
 const PrivateRoute = lazy(() => import("./private/index"));
 const ProductForm = lazy(() => import("../../pages/productDetails/form"));
 const CategoryForm = lazy(() => import("../../pages/category/form"));
-const LoginForm = lazy(() => import("../../pages/login/index"));
-const DeleteProduct = lazy(() => import("../../pages/productDetails/supForm"));
+const LoginForm = lazy(() => import("../../pages/login/index")); 
 
 
 /**
@@ -120,18 +119,7 @@ export const router = createBrowserRouter([
       ),
     }, 
   ],
-},
-
-
-
-{
-  path: '/deleteProduct',
-  element: (
-    <Suspense fallback={<LoadingFullback color="inherit" />}>
-      <DeleteProduct/>
-    </Suspense>
-  ),
-},
+}, 
 
 
 

@@ -160,4 +160,75 @@ export const useCreateOrUpdateProduct = () => {
     product
   }
 };
+ 
+export const useDeleteProduct = () => {
+  const { setLoading } = useLoadingContext();
+  const { onSuccess, onError } = useHandlerErrors();
 
+  const deleteProduct = async (id) => {
+    try {
+      setLoading((old) => old + 1);
+
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/products/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }
+      });
+
+      if (response.ok) {
+        onSuccess("Produit supprimé avec succès.");
+        return response;
+      } else {
+        const errorData = await response.json();
+        onError(typeof errorData === 'string' ? errorData : errorData.message || 'Opération échouée');
+        throw new Error(errorData.message || 'Erreur lors de la suppression du produit');
+      }
+    } catch (error) {
+      onError(typeof error === 'string' ? error : error.message || 'Opération échouée');
+      throw error;  
+    } finally {
+      setLoading((old) => old - 1);
+    }
+  };
+
+  return {
+    deleteProduct,
+  };
+};
+
+export const useDeleteProductImage = () => {
+  const { setLoading } = useLoadingContext();
+  const { onSuccess, onError } = useHandlerErrors();
+
+  const deleteProductImage = async (id) => {
+    try {
+      setLoading((old) => old + 1);
+
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/products/image/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.ok) {
+        onSuccess("Image supprimée avec succès");
+        return await response.json();  
+      } else {
+        const errorData = await response.json();
+      onError(typeof errorData === 'string' ? errorData : errorData.message || 'Opération échouée');
+        throw new Error(errorData.message || 'Erreur lors de la suppression de l’image');
+      }
+    } catch (error) {
+      onError(typeof error === 'string' ? error : error.message || 'Opération échouée');
+      throw error;  
+    } finally {
+      setLoading((old) => old - 1);
+    }
+  };
+
+  return {
+    deleteProductImage,
+  };
+};

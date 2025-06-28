@@ -211,10 +211,7 @@ function DrawerAppBar(props) {
                 </MenuItem>
                 <MenuItem onClick={() => { setTimeout(() => navigate(`/productForm`), 300); handleClose(); }}>
                   Ajouter un produit
-                </MenuItem>
-                <MenuItem onClick={() => { setTimeout(() => navigate(`/deleteProduct`), 300); handleClose(); }}>
-                  Supprimer un produit
-                </MenuItem>
+                </MenuItem> 
                 <Divider />
                 <MenuItem onClick={() => { logout(); handleClose(); }}>
                   <Logout fontSize="small" />

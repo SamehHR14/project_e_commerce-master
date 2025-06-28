@@ -8,45 +8,39 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-const CustomImageUpload = ({ name, label, onlyOneImage = false, replaceOnEdit = true }) => {
+const CustomImageUpload = ({ name, label,onlyOneImage=false ,onDelete}) => {
   const { setFieldValue } = useFormikContext();
   const [field, meta] = useField(name);
   const [previews, setPreviews] = useState([]);
   const [deleteIndex, setDeleteIndex] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+const handleChange = (event) => {
+  const files = Array.from(event.currentTarget.files);
 
-  const handleChange = (event) => {
-    const files = Array.from(event.currentTarget.files);
-    if (!files.length) return;
+  if (!files.length) return;
 
-    if (onlyOneImage) {
-      setFieldValue(name, files[0]);
-    } else {
-      if (replaceOnEdit) {
-        setFieldValue(name, files);
-      } else {
-        const existingFiles = Array.isArray(field.value) ? field.value : [];
-        setFieldValue(name, [...existingFiles, ...files]);
-      }
-    }
-  };
+  if (onlyOneImage) {
+     
+    setFieldValue(name, files[0]);  
+  } else {
+ 
+    const existingFiles = Array.isArray(field.value) ? field.value : [];
+    const copyFiles = [...existingFiles, ...files];
+    setFieldValue(name, copyFiles);  
+  }
+};
+/*
+  const handleDelete = (indexToDelete) => {
+      let updatedFiles =  null;
+    if (!onlyOneImage)
+       updatedFiles = field.value.filter((_, index) => index !== indexToDelete); 
+    setFieldValue(name, updatedFiles);
+  };*/
+
 
   const handleDelete = (indexToDelete) => {
     setDeleteIndex(indexToDelete);
     setOpenDialog(true);
-  };
-
-  const confirmDelete = () => {
-    if (deleteIndex !== null) {
-      if (onlyOneImage) {
-        setFieldValue(name, null);
-      } else {
-        const updatedFiles = field.value.filter((_, index) => index !== deleteIndex);
-        setFieldValue(name, updatedFiles);
-      }
-      setOpenDialog(false);
-      setDeleteIndex(null);
-    }
   };
 
   const handleCloseDialog = () => {
@@ -54,37 +48,28 @@ const CustomImageUpload = ({ name, label, onlyOneImage = false, replaceOnEdit = 
     setDeleteIndex(null);
   };
 
-  useEffect(() => {
-    if (!field.value) {
-      setPreviews([]);
-      return;
+  const confirmDelete = () => {
+    if (deleteIndex !== null) {
+      onDelete(deleteIndex,handleCloseDialog)
     }
+  };
 
-    let objectUrls = [];
+  useEffect(()=>{ 
+if (!field.value) {
+    setPreviews([]);
+    return;
+  } 
+  let objectUrls = []; 
+  if (onlyOneImage) { 
+    const url = typeof field.value === 'object' ? URL.createObjectURL(field.value) : field.value;
+    objectUrls.push(url);
+  } else if (Array.isArray(field.value)) {
+    objectUrls = field.value.map(file => file?.imageUrl || URL.createObjectURL(file));
+  }
 
-    if (onlyOneImage) {
-      const url =
-        field.value instanceof File
-          ? URL.createObjectURL(field.value)
-          : field.value?.imageUrl || field.value;
-      objectUrls.push(url);
-    } else if (Array.isArray(field.value)) {
-      objectUrls = field.value.map((file) =>
-        file instanceof File ? URL.createObjectURL(file) : file?.imageUrl || file
-      );
-    }
+  setPreviews(objectUrls);
+  },[field.value])
 
-    setPreviews(objectUrls);
-
-    // Nettoyage des URL objets pour éviter les fuites mémoire
-    return () => {
-      objectUrls.forEach((url) => {
-        if (typeof url === 'string' && url.startsWith('blob:')) {
-          URL.revokeObjectURL(url);
-        }
-      });
-    };
-  }, [field.value, onlyOneImage]);
 
   return (
     <Box>

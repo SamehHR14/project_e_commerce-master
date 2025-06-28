@@ -102,3 +102,38 @@ const {onSuccess,onError} = useHandlerErrors();
             categorie
         }
     }; 
+export const useDeleteCategoryImage = () => {
+  const { setLoading } = useLoadingContext();
+  const { onSuccess, onError } = useHandlerErrors();
+
+  const deleteCategoryImage = async (id) => {
+    try {
+      setLoading((old) => old + 1);
+
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/categories/image/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.ok) {
+        onSuccess("Image supprimée avec succès");
+        return await response.json();  
+      } else {
+        const errorData = await response.json();
+      onError(typeof errorData === 'string' ? errorData : errorData.message || 'Opération échouée');
+        throw new Error(errorData.message || 'Erreur lors de la suppression de l’image');
+      }
+    } catch (error) {
+      onError(typeof error === 'string' ? error : error.message || 'Opération échouée');
+      throw error;  
+    } finally {
+      setLoading((old) => old - 1);
+    }
+  };
+
+  return {
+    deleteCategoryImage,
+  };
+};
