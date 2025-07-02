@@ -37,11 +37,11 @@ function Footer() {
               Email
             </Typography>
             <Link
-              href="mailto:ntbm.decore@gmail.com"
+              href="mailto:info@ntbm.com.tn"
               underline="hover"
               color="inherit"
             >
-              <Typography variant="body2">ntbm.decore@gmail.com</Typography>
+              <Typography variant="body2">info@ntbm.com.tn</Typography>
             </Link>
 
             <Typography
@@ -57,12 +57,8 @@ function Footer() {
             >
               Téléphones
             </Typography>
-            <Link href="tel:+21628262262" underline="hover" color="inherit">
+           
               <Typography variant="body2">+216 28 26 22 62</Typography>
-            </Link>
-            <Link href="tel:+21670310420" underline="hover" color="inherit">
-              <Typography variant="body2">+216 70 31 04 20</Typography>
-            </Link>
           </Grid>
 
           {/* Adresse */}

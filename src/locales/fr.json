@@ -1,0 +1,28 @@
+{
+  "home": {
+    "welcomeMessage": "Bienvenue chez NTBM",
+    "slogan": "Nouvelles Techniques de Bâtiment et de Métallurgie",
+    "contactUs": "Contactez-nous",
+    "categoriesTitle": "Les Catégories",
+    "categoriesDescription": "Des meubles imaginés et conçus pour vous accompagner longtemps."
+  },
+  "navbar": {
+    "home": "Accueil",
+    "products": "Produits",
+    "newArrivals": "Nouveautés",
+    "about": "À Propos",
+    "contact": "Contact"
+  },
+  "languageSelector": {
+    "changeLanguage": "Changer de langue"
+  },
+  "adminMenu": {
+    "settingsTooltip": "Paramètres",
+    "addCategory": "Ajouter une catégorie",
+    "addProduct": "Ajouter un produit",
+    "logout": "Déconnexion"
+  },
+  "categoryCard": {
+    "discover": "Découvrir"
+  }
+}

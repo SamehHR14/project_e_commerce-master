@@ -2,12 +2,14 @@ import { useLoadingContext } from "context/LoadingContext";
 import { useState } from "react";
 import { objectToFormData } from "utils";
 import { useHandlerErrors } from "..";
+import { useTranslation } from 'react-i18next';
 
 
 export const useGetProductById = () => {
   const { setLoading } = useLoadingContext();
   const { onError } = useHandlerErrors();
   const [product, setProduct] = useState(null);
+  const { t } = useTranslation();
 
   const getProduct = async (id) => {
     try {
@@ -19,7 +21,8 @@ export const useGetProductById = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        setProduct(data);
+         onError(t('errors.operationFailed'));
+         setProduct(data);
       }
     } catch (error) {
       onError(typeof error === 'string' ? error : 'Opération echouée');
@@ -39,6 +42,7 @@ export const useGetAllProducts = () => {
   const { onError } = useHandlerErrors();
 
   const [products, setAllProducts] = useState([]);
+  const { t } = useTranslation();
 
   const getAllProducts = async (id) => {
     try {
@@ -52,6 +56,7 @@ export const useGetAllProducts = () => {
         const data = await response.json();
         setAllProducts(data);
       }
+        onError(t('errors.operationFailed'));
     } catch (error) {
       onError(typeof error === 'string' ? error : 'Opération echouée');
     } finally {
@@ -69,6 +74,7 @@ export const useGetLastAllProducts = () => {
   const { onError } = useHandlerErrors();
 
   const [lastProducts, setLastAllProducts] = useState([]);
+  const { t } = useTranslation();
 
   const getLastAllProducts = async () => {
     try {
@@ -81,6 +87,7 @@ export const useGetLastAllProducts = () => {
       if (response.ok) {
         const data = await response.json();
         setLastAllProducts(data);
+        onError(t('errors.operationFailed'));
       }
     } catch (error) {
       onError(typeof error === 'string' ? error : 'Opération echouée');
@@ -100,6 +107,7 @@ export const useGetAllProductsActif = () => {
   const {  onError } = useHandlerErrors();
 
   const [productsActif, setAllProductsActif] = useState(null);
+  
 
   const getAllProductsActif = async (id) => {
     try {

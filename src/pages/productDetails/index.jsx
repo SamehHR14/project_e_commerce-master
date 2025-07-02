@@ -1,6 +1,7 @@
 import { Box, Typography, Container, Button, Grid } from '@mui/material';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
+import { useTranslation } from 'react-i18next';
 
 // Import images if in src folder
 import tv6 from '../../images/tv6.png';

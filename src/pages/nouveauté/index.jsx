@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Container, Grid, Typography, Divider } from '@mui/material';
 import HeaderCategory from 'components/swiperSlide/headerCategory';
 import ArticleCard from 'components/articleCard';
+import { useTranslation } from 'react-i18next';
 
 import tv1 from '../../images/tv6.png';
 import tv2 from '../../images/tv7.png';
