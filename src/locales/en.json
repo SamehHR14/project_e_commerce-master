@@ -1,0 +1,28 @@
+{
+  "home": {
+    "welcomeMessage": "Welcome to NTBM",
+    "slogan": "New Techniques of Building and Metalwork",
+    "contactUs": "Contact Us",
+    "categoriesTitle": "Categories",
+    "categoriesDescription": "Beautifully designed and crafted furniture to accompany you for a long time."
+  },
+  "navbar": {
+    "home": "Home",
+    "products": "Products",
+    "newArrivals": "New Arrivals",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "languageSelector": {
+    "changeLanguage": "Change Language"
+  },
+  "adminMenu": {
+    "settingsTooltip": "Settings",
+    "addCategory": "Add Category",
+    "addProduct": "Add Product",
+    "logout": "Logout"
+  },
+  "categoryCard": {
+    "discover": "Discover"
+  }
+}

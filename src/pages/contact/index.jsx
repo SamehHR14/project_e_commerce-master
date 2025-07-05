@@ -5,6 +5,7 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import HeaderCategory from 'components/swiperSlide/headerCategory';
+import { useTranslation } from 'react-i18next';
 
 const bannerImage = "/assets/home2.jpg";
 const contactImage = "/assets/contact-side-image.jpg";

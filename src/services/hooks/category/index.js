@@ -2,6 +2,7 @@ import { useLoadingContext } from "context/LoadingContext";
 import { useState } from "react";
 import { objectToFormData } from "utils";
 import { useHandlerErrors } from "..";
+import { useTranslation } from 'react-i18next';
 
  
 export const useGetCategorieById = ()=>{

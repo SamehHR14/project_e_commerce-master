@@ -1,23 +1,19 @@
-import { Box, Typography, Container, Grid, Button, Zoom, Tooltip, IconButton } from '@mui/material';
+import { Box, Typography, Container, Grid, Button, IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { memo, useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
-// Images
-import tv from '../../images/tv6.png';
-import table from '../../images/mur61.png';
-import buffet from '../../images/boutique3.png';
-import bed from '../../images/cuisine1.png';
-import cabinet3 from '../../images/cabinet3.png';
-import dentaire1 from '../../images/dentaire1.png';
-import HeaderCategory from 'components/swiperSlide/headerCategory';
-import { Edit } from '@mui/icons-material';
-import { useAuth } from 'context/AuthContext';  
-import { useGetAllCategories } from 'services/hooks/category';
-import imageHeader from 'images/imageheader.png'
+// Traduction
+import { useTranslation } from 'react-i18next';
 
-const bannerImage = "/assets/home.webp";
- const FullWidthBanner = styled(Box)(({ theme }) => ({
+// Images
+import { Edit } from '@mui/icons-material';
+import { useAuth } from 'context/AuthContext';
+import { useGetAllCategories } from 'services/hooks/category';
+
+const bannerImage = "/assets/home.webp"; // Vérifie ce chemin
+
+const FullWidthBanner = styled(Box)(({ theme }) => ({
   width: '100%',
   height: '76vh',
   backgroundImage: `url(${bannerImage})`,
@@ -34,26 +30,20 @@ const bannerImage = "/assets/home.webp";
     padding: '0 1rem',
   },
 }));
-const HomePages = () => {
-  const { isAuth } = useAuth();
-  const navigate = useNavigate();
 
-    const {
-        getAllCategories,
-        categories
-    } = useGetAllCategories();
-    useEffect(()=>{
-      getAllCategories();
-    },[])
-const CustomCategory = ({ product }) => {
+// Extraire CustomCategory hors du composant principal pour éviter redéclaration à chaque render
+const CustomCategory = memo(({ product, isAuth, navigate, t }) => {
   const [show, setShow] = useState(false);
 
   return (
-    <Grid item xs={12} sm={6}
+    <Grid
+      item
+      xs={12}
+      sm={6}
       onMouseOver={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
     >
-      <Box 
+      <Box
         sx={{
           position: 'relative',
           display: 'block',
@@ -62,6 +52,7 @@ const CustomCategory = ({ product }) => {
           borderRadius: 3,
           boxShadow: 4,
           textDecoration: 'none',
+          cursor: 'pointer',
           '&:hover .image': {
             transform: 'scale(1.1)',
           },
@@ -70,9 +61,16 @@ const CustomCategory = ({ product }) => {
             transform: 'translateY(0)',
           },
         }}
-      onClick={()=>{ 
-              navigate(`/produit${product.id ? `/${product.id}` :'' }`);
-      }}
+        onClick={() => {
+          navigate(`/produit${product.id ? `/${product.id}` : ''}`);
+        }}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            navigate(`/produit${product.id ? `/${product.id}` : ''}`);
+          }
+        }}
       >
         {isAuth && (
           <IconButton
@@ -91,8 +89,9 @@ const CustomCategory = ({ product }) => {
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              navigate(`/categoryForm${product.id ? `/${product.id}` :'' }`);
+              navigate(`/categoryForm${product.id ? `/${product.id}` : ''}`);
             }}
+            aria-label={t('categoryCard.edit')}
           >
             <Edit />
           </IconButton>
@@ -148,48 +147,54 @@ const CustomCategory = ({ product }) => {
                 backgroundColor: 'rgba(255,255,255,0.1)',
               },
             }}
-            onClick={()=>{
-              navigate(`/produit${product.id ? `/${product.id}` :'' }`);
-
+            onClick={(e) => {
+              e.stopPropagation(); // éviter que le click déclenche aussi onClick du parent
+              navigate(`/produit${product.id ? `/${product.id}` : ''}`);
             }}
           >
-            Découvrir
+            {t('categoryCard.discover')}
           </Button>
         </Box>
       </Box>
     </Grid>
   );
-};
+});
 
+const HomePages = () => {
+  const { isAuth } = useAuth();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const { getAllCategories, categories } = useGetAllCategories();
+
+  useEffect(() => {
+    getAllCategories();
+  }, []);
 
   return (
     <Box>
-          <FullWidthBanner>
-      <Box sx={{ backgroundColor: 'rgba(0,0,0,0.5)', p: 4, borderRadius: 2 }}>
-        <Typography variant="h2" sx={{ fontWeight: 'bold', fontSize: { xs: '2rem', md: '3.5rem' }, mb: 2 }}>
-          Bienvenue chez NTBM
-        </Typography>
-        <Typography variant="h6" sx={{ fontStyle: 'italic', fontSize: { xs: '1rem', md: '1.25rem' } }}>
-          Nouvelles Techniques de Bois et de Métaux
-        </Typography>
-        <Button
-          variant="contained"
-          size="large"
-          sx={{ mt: 3 }}
-          component={RouterLink}
-          to="/contact"
-          color="warning"
-        >
-          Contactez-nous
-        </Button>
-      </Box>
-    </FullWidthBanner> 
+      <FullWidthBanner>
+        <Box sx={{ backgroundColor: 'rgba(0,0,0,0.5)', p: 4, borderRadius: 2 }}>
+          <Typography variant="h2" sx={{ fontWeight: 'bold', fontSize: { xs: '2rem', md: '3.5rem' }, mb: 2 }}>
+            {t('home.welcomeMessage')}
+          </Typography>
+          <Typography variant="h6" sx={{ fontStyle: 'italic', fontSize: { xs: '1rem', md: '1.25rem' } }}>
+            {t('home.slogan')}
+          </Typography>
+          <Button
+            variant="contained"
+            size="large"
+            sx={{ mt: 3 }}
+            component={RouterLink}
+            to="/contact"
+            color="warning"
+          >
+            {t('home.contactUs')}
+          </Button>
+        </Box>
+      </FullWidthBanner>
 
       <Container sx={{ py: 8 }}>
-        
-
- 
-
         <Typography
           variant="h5"
           sx={{
@@ -202,7 +207,7 @@ const CustomCategory = ({ product }) => {
             animation: 'fadeInDown 1s ease-out',
           }}
         >
-          Les Catégories
+          {t('home.categoriesTitle')}
         </Typography>
 
         <Typography
@@ -219,14 +224,20 @@ const CustomCategory = ({ product }) => {
             animation: 'fadeInDown 1.2s ease-out',
           }}
         >
-          Des meubles imaginés et conçus pour vous accompagner longtemps
+          {t('home.categoriesDescription')}
         </Typography>
 
         <Grid container spacing={4} justifyContent="center">
           {categories.map((categorie, index) => (
-            <CustomCategory product={categorie} index={index} />
+            <CustomCategory
+              product={categorie}
+              key={categorie.id || index}
+              isAuth={isAuth}
+              navigate={navigate}
+              t={t}
+            />
           ))}
-        </Grid> 
+        </Grid>
       </Container>
     </Box>
   );

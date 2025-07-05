@@ -1,3 +1,5 @@
+
+
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
@@ -15,21 +17,17 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Link, useNavigate } from 'react-router-dom';
-import logo from '../../images/logo.png';
+import logo from '../../images/logo.png'; 
 import { Avatar, Menu, MenuItem, Tooltip } from '@mui/material';
 import { Logout } from '@mui/icons-material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useAuth } from 'context/AuthContext';
 
-const drawerWidth = 240;
 
-const navItems = [
-  { label: 'Acceuil', path: '/' },
-  { label: 'Produit', path: '/produit' },
-  { label: 'Nouveautés', path: '/nouveautes' },
-  { label: 'A propos', path: '/a-propos' },
-  { label: 'Contact', path: '/contact' }
-];
+import { useTranslation } from 'react-i18next'; 
+import LanguageSelector from '../LanguageSelector'; 
+
+const drawerWidth = 240;
 
 const styledLink = {
   textDecoration: 'none',
@@ -54,6 +52,18 @@ function DrawerAppBar(props) {
   const { isAuth, logout } = useAuth();
   const navigate = useNavigate();
 
+
+  const { t } = useTranslation(); //
+
+  
+  const navItems = React.useMemo(() => [
+    { label: t('navbar.home'), path: '/' }, //
+    { label: t('navbar.products'), path: '/produit' }, //
+    { label: t('navbar.newArrivals'), path: '/nouveautes' }, 
+    { label: t('navbar.about'), path: '/a-propos' }, //
+    { label: t('navbar.contact'), path: '/contact' } //
+  ], [t]); // Dépendance à `t` pour re-calculer si la langue change
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -69,25 +79,25 @@ function DrawerAppBar(props) {
   const navItemsAdmin = React.useMemo(() => {
     return isAuth ? [
       {
-        label: 'Ajouter une catégorie',
+        label: t('adminMenu.addCategory'), // Clé de traduction
         action: () => {
           setTimeout(() => navigate(`/categoryForm`), 300);
           handleDrawerToggle();
         }
       },
       {
-        label: 'Ajouter un produit',
+        label: t('adminMenu.addProduct'), // Clé de traduction
         action: () => {
           setTimeout(() => navigate(`/productForm`), 300);
           handleDrawerToggle();
         }
       },
       {
-        label: 'Déconnexion',
+        label: t('adminMenu.logout'), // Clé de traduction
         action: logout
       }
     ] : [];
-  }, [isAuth]);
+  }, [isAuth, t, navigate, logout]); // Dépendance à `t`
 
   const drawer = (
     <Box
@@ -105,7 +115,7 @@ function DrawerAppBar(props) {
       <Divider />
       <List>
         {navItems.map(({ label, path }) => (
-          <ListItem key={label} disablePadding>
+          <ListItem key={path} disablePadding>
             <ListItemButton component={Link} to={path} sx={{ textAlign: 'center', ...styledLink }}>
               <ListItemText primary={label} />
             </ListItemButton>
@@ -118,6 +128,12 @@ function DrawerAppBar(props) {
             </ListItemButton>
           </ListItem>
         ))}
+        {/* Ajouter le LanguageSelector dans le tiroir mobile aussi si désiré */}
+        {/* <ListItem disablePadding>
+          <ListItemButton sx={{ textAlign: 'center' }}>
+            <LanguageSelector />
+          </ListItemButton>
+        </ListItem> */}
       </List>
     </Box>
   );
@@ -140,27 +156,34 @@ function DrawerAppBar(props) {
           </IconButton>
 
           <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
-            <img src={logo} alt="Logo NTBM" style={{ height: '50px', marginRight: '10px' }} />
+            <img src={logo} alt="Logo NTBM" style={{ height: '50px', marginRight: '10px' }} /> {/* */}
           </Box>
 
-          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ flexGrow: 1 }} /> {/* Cette boîte pousse les éléments suivants vers la droite */}
 
+          {/* Liens de navigation pour desktop */}
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map(({ label, path }) => (
-              <Button key={label} component={Link} to={path} sx={styledLink}>
+              <Button key={path} component={Link} to={path} sx={styledLink}>
                 {label}
               </Button>
             ))}
           </Box>
 
+          {/* SÉLECTEUR DE LANGUE : Positionné après les liens de navigation, toujours visible. */}
+          {/* Sa marge gauche (ml:2) est définie dans LanguageSelector.jsx, ce qui permet un espacement cohérent avec l'icône de paramètres. */}
+          <LanguageSelector />
+
+          {/* Section d'administration : visible uniquement si l'utilisateur est authentifié */}
           {isAuth && (
             <>
-              <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
-                <Tooltip title="Paramètres">
+              {/* Le Box parent gère l'alignement et la marge entre le LanguageSelector et SettingsIcon */}
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Tooltip title={t('adminMenu.settingsTooltip')}> {/* Traduire le tooltip */}
                   <IconButton
                     onClick={handleClick}
                     size="small"
-                    sx={{ ml: 2 }}
+                    sx={{ ml: 2 }} // Ajustez cette marge si nécessaire par rapport au LanguageSelector
                     aria-controls={open ? 'account-menu' : undefined}
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
@@ -207,15 +230,15 @@ function DrawerAppBar(props) {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               >
                 <MenuItem onClick={() => { setTimeout(() => navigate(`/categoryForm`), 300); handleClose(); }}>
-                  Ajouter une catégorie
+                  {t('adminMenu.addCategory')} {/* Traduire */}
                 </MenuItem>
                 <MenuItem onClick={() => { setTimeout(() => navigate(`/productForm`), 300); handleClose(); }}>
-                  Ajouter un produit
-                </MenuItem> 
+                  {t('adminMenu.addProduct')} {/* Traduire */}
+                </MenuItem>
                 <Divider />
                 <MenuItem onClick={() => { logout(); handleClose(); }}>
                   <Logout fontSize="small" />
-                  Déconnexion
+                  {t('adminMenu.logout')} {/* Traduire */}
                 </MenuItem>
               </Menu>
             </>
