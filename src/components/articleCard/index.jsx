@@ -38,10 +38,12 @@ export default function ArticleCard({ images,id, name, dimension, }) {
                     color: 'primary.main',
                   },
                 }}
-                onClick={()=>{
+                onClick={(e)=>{
+                  e.stopPropagation()
                   navigate(`/productForm/${id}`)
                 }}
               >
+
                 <Edit />
               </IconButton>
             </Tooltip>
@@ -49,6 +51,11 @@ export default function ArticleCard({ images,id, name, dimension, }) {
         )}
         <CardMedia
           component="img"
+           onClick={(e)=>{
+                
+                  navigate(`/product/${id}`)
+                }}
+             
           height="200"
           image={images?.[0]?.imageUrl || noImage}
           alt={name || "Produit"}

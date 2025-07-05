@@ -90,7 +90,7 @@ export const router = createBrowserRouter([
       element: <Suspense fallback={<LoadingFullback color="inherit" />}> <LoginForm /> </Suspense>,
       },  
       {
-        path: '/product/:name', // New route for product details
+        path: '/product/:id', // New route for product details
         element: <Suspense fallback={<LoadingFullback color="inherit" />}> <ProductDetails /> </Suspense>,
       },{
   path: 'productForm',
