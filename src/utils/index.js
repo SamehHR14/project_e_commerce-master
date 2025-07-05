@@ -1,4 +1,6 @@
   
+import translations from './translation';
+
 export const objectToFormData = (data) => {
   const formData = new FormData();
 
@@ -14,4 +16,10 @@ export const objectToFormData = (data) => {
   });
 
   return formData;
+};
+
+export const getTranslation = (language, key) => {
+  const langData = translations[language?.toUpperCase()] || translations.FRENCH;
+  const value = langData[key];
+  return typeof value === 'function' ? value() : value;
 };
