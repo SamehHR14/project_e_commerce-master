@@ -8,8 +8,7 @@ import { useTranslation } from 'react-i18next';
 export const useGetProductById = () => {
   const { setLoading } = useLoadingContext();
   const { onError } = useHandlerErrors();
-  const [product, setProduct] = useState(null);
-  const { t } = useTranslation();
+  const [product, setProduct] = useState(null); 
 
   const getProduct = async (id) => {
     try {
@@ -21,7 +20,6 @@ export const useGetProductById = () => {
       });
       if (response.ok) {
         const data = await response.json();
-         onError(t('errors.operationFailed'));
          setProduct(data);
       }
     } catch (error) {
@@ -41,8 +39,7 @@ export const useGetAllProducts = () => {
   const { setLoading } = useLoadingContext();
   const { onError } = useHandlerErrors();
 
-  const [products, setAllProducts] = useState([]);
-  const { t } = useTranslation();
+  const [products, setAllProducts] = useState([]); 
 
   const getAllProducts = async (id) => {
     try {
@@ -56,7 +53,6 @@ export const useGetAllProducts = () => {
         const data = await response.json();
         setAllProducts(data);
       }
-        onError(t('errors.operationFailed'));
     } catch (error) {
       onError(typeof error === 'string' ? error : 'Opération echouée');
     } finally {
@@ -87,7 +83,6 @@ export const useGetLastAllProducts = () => {
       if (response.ok) {
         const data = await response.json();
         setLastAllProducts(data);
-        onError(t('errors.operationFailed'));
       }
     } catch (error) {
       onError(typeof error === 'string' ? error : 'Opération echouée');

@@ -1,101 +1,81 @@
 import React, { useEffect } from 'react';
-import { Box, Typography, Container, Button, Grid } from '@mui/material';
+import {
+  Box, Typography, Container, Grid, Card, CardMedia, CardContent, Button, Divider
+} from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
-
-
-// import des images
-import tv6 from '../../images/tv6.png';
-import mure from '../../images/mure.png';
-import mure17 from '../../images/mure17.jpg';
 import { useGetProductById } from 'services/hooks/products';
-
-const allProducts = [
-  {
-    title: 'Temis',
-    image: tv6,
-    dimension: 'Meuble TV en acacia 160 cm',
-    category: 'tv'
-  },
-  {
-    title: 'Anton',
-    image: mure,
-    dimension: 'Meuble TV en teck massif 130 cm',
-    category: 'tv'
-  },
-  {
-    title: 'Milo',
-    image: mure17,
-    dimension: 'Meuble TV avec rangements 120 cm',
-    category: 'mure'
-  },
-  // ...
-];
+import { SwiperCoverflowMemo } from 'components/swiperSlide/images';
+import ArticleCard from 'components/articleCard';
 
 const ProduitDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
   const { getProduct, product } = useGetProductById();
 
   useEffect(() => {
     if (id) getProduct(id);
   }, [id]);
 
-  if (!product) {
-    return <Typography>Chargement...</Typography>;
+  if (!product?.id) {
+    return <Typography variant="h6" sx={{ mt: 4 }}>Aucun produit sélectionné.</Typography>;
   }
-
-  if (!product.id) {
-    return <Typography>Aucun produit sélectionné.</Typography>;
-  }
-
-  const similarProducts = allProducts.filter(
-    (p) => p.category === product.category && p.title !== product.title
-  );
 
   return (
-    <Container sx={{ py: 4 }}>
-      <Button onClick={() => navigate(-1)} sx={{ mb: 2 }}>
-        Retour
-      </Button>
-
+    <Container maxWidth="lg" sx={{ py: 6 }}>
+      {/* Product Header */}
       <Grid container spacing={4}>
         <Grid item xs={12} md={6}>
-          <img
-            src={product.image}
-            alt={product.title}
-            style={{ width: '100%', borderRadius: 8 }}
-          />
+          <SwiperCoverflowMemo images={product.images} />
         </Grid>
-      
+        <Grid item xs={12} md={6}>
+          <Typography variant="h4" fontWeight={700} gutterBottom>
+            {product.name}
+          </Typography>
+          <Divider sx={{ my: 2 }} />
+          <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+            {product.shortDescription}
+          </Typography>
 
-        <Grid item xs={12}>
-          <Typography variant="h6" sx={{ mt: 4, mb: 2 }}>
+          {/* Price or other feature (optional) */}
+          {product?.price && (
+            <Typography variant="h5" fontWeight={600} color="primary" sx={{ my: 2 }}>
+              {product.price} TND
+            </Typography>
+          )}
+
+ 
+        </Grid>
+      </Grid>
+
+      {/* Description */}
+      {product?.description?.length > 7 && (
+        <Box sx={{ mt: 6, p: 3, bgcolor: '#f9f9f9', borderRadius: 2 }}>
+          <Typography variant="h6" fontWeight={600} gutterBottom>
+            Description
+          </Typography>
+          <Typography
+            component="div"
+            sx={{ fontSize: '16px', color: 'text.secondary' }}
+            dangerouslySetInnerHTML={{ __html: product.description }}
+          />
+        </Box>
+      )}
+
+      {/* Similar Products */}
+      {product?.similarProducts?.length > 0 && (
+        <Box sx={{ mt: 6 }}>
+          <Typography variant="h5" fontWeight={600} gutterBottom>
             Produits similaires
           </Typography>
-          <Grid container spacing={2}>
-            {similarProducts.map((item, idx) => (
-              <Grid item xs={6} md={3} key={idx}>
-                <Box
-                  onClick={() =>
-                    navigate(`/produit-details/${item.title}`, {
-                      state: { product: item },
-                    })
-                  }
-                  sx={{ cursor: 'pointer' }}
-                >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    style={{ width: '100%', borderRadius: 4 }}
-                  />
-                  <Typography>{item.title}</Typography>
-                </Box>
+          <Grid container spacing={3}>
+            {product.similarProducts.map((similarProduct, idx) => (
+              <Grid item xs={12} sm={6} md={3} key={idx}>
+             <ArticleCard {...similarProduct} />
               </Grid>
             ))}
           </Grid>
-        </Grid>
-      </Grid>
+        </Box>
+      )}
     </Container>
   );
 };
