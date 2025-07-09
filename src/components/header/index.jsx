@@ -31,18 +31,19 @@ const drawerWidth = 240;
 
 const styledLink = {
   textDecoration: 'none',
-  fontWeight: 500,
+  fontWeight: 800,              // un peu plus gras que 500
   fontStyle: 'italic',
   textTransform: 'capitalize',
   fontFamily: 'Playfair Display, serif',
-  fontSize: '1rem',
+  fontSize: '1.125rem', 
   color: '#5D4037',
-  letterSpacing: '0.5px',
+  letterSpacing: '2px',
   '&:hover': {
     backgroundColor: 'transparent !important',
     textDecoration: 'underline !important',
   },
 };
+
 
 function DrawerAppBar(props) {
   const { window } = props;
@@ -162,13 +163,19 @@ function DrawerAppBar(props) {
           <Box sx={{ flexGrow: 1 }} /> {/* Cette boîte pousse les éléments suivants vers la droite */}
 
           {/* Liens de navigation pour desktop */}
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {navItems.map(({ label, path }) => (
-              <Button key={path} component={Link} to={path} sx={styledLink}>
-                {label}
-              </Button>
-            ))}
-          </Box>
+          <Box sx={{
+              display: { xs: 'none', sm: 'flex' },
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexGrow: 1, // Prend l'espace central
+              gap: 5 // espace entre les titres
+            }}>
+              {navItems.map(({ label, path }) => (
+                <Button key={path} component={Link} to={path} sx={styledLink}>
+                  {label}
+                </Button>
+              ))}
+            </Box>
 
           {/* SÉLECTEUR DE LANGUE : Positionné après les liens de navigation, toujours visible. */}
           {/* Sa marge gauche (ml:2) est définie dans LanguageSelector.jsx, ce qui permet un espacement cohérent avec l'icône de paramètres. */}

@@ -116,17 +116,17 @@ const Produits = () => {
       <HeaderCategory withoutTitle />
       <Container sx={{ paddingTop: 5, paddingBottom: 5 }}>
         <Grid container spacing={2} sx={{ padding: '20px' }}>
-          <Grid
-            item
-            xs={12}
-            sx={{
-              padding: '60px !important',
-              font: '700 3.5rem/4.5rem "Inter",sans-serif',
-              textAlign: 'center',
-              margin: '20px',
-            }}
-          >
-            {selectedCategoryName}
+       <Grid item xs={12} sx={{ textAlign: 'center', mb: 4 }}>
+            <h1 style={{
+              fontSize: '3.5rem',
+              fontWeight: 'bold',
+              color: '#db7958ff', // Tu peux changer ici par une autre couleur (#00796B, #1e88e5, etc.)
+              fontFamily: '"Inter", sans-serif',
+              textShadow: '1px 1px 4px rgba(0, 0, 0, 0.1)',
+              marginBottom: '20px'
+            }}>
+              {selectedCategoryName}
+            </h1>
           </Grid>
 
           <Grid item xs={12} sx={{ padding: '20px' }}>
