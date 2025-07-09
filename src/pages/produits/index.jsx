@@ -1,4 +1,4 @@
-import { Button, Checkbox, Container, Divider, Grid, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { Button, Container, Divider, Grid, ListItemButton, ListItemText } from "@mui/material";
 import HeaderCategory from "components/swiperSlide/headerCategory";
 import { memo, useEffect, useRef, useState } from "react";
 import ArticleCard from "components/articleCard";
@@ -13,134 +13,6 @@ import ScrollReveal from 'scrollreveal';
 import { useGetAllCategories } from "services/hooks/category";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetAllProducts } from "services/hooks/products";
-
-const category = {
-
-  title: 'Liste produits',
-  id: 1,
-  title: 'Catégorie 1',
-
-};
-const allProducts = [
-  //tv
-  {
-    title: 'Temis',
-    image: require('../../images/tv6.png'), // remplace par le bon chemin
-    dimension: 'Meuble TV en acacia 160 cm',
-
-  },
-  {
-    title: 'Anton',
-    image: require('../../images/mure.png'),
-    dimension: 'Meuble TV en teck massif 130 cm',
-
-  },
-
-  {
-    title: 'Basil',
-    image: require('../../images/tv7.png'),
-    dimension: 'Meuble TV en teck massif 140 cm',
-
-  },
-  {
-    title: 'Lana',
-    image: require('../../images/tv4.png'),
-    dimension: 'Meuble TV en chêne 150 cm',
-
-  },
-  //mure
-  {
-    title: 'Milo',
-    image: require('../../images/mure17.jpg'),
-    dimension: 'Meuble TV avec rangements 120 cm',
-
-  },
-  {
-    title: 'Nova',
-    image: require('../../images/mur16.jpg'),
-    dimension: 'Meuble TV moderne 180 cm',
-
-  },
-
-  {
-    title: 'Nova',
-    image: require('../../images/mure2.png'),
-
-    dimension: 'Meuble TV moderne 180 cm',
-
-
-  },
-  {
-    title: 'Nova',
-    image: require('../../images/mure3.png'),
-    dimension: 'Meuble TV moderne 180 cm',
-
-
-  },
-
-
-  //boutique
-  {
-    title: 'boutique1',
-    image: require('../../images/boutique1.png'),
-    dimension: 'Meuble TV avec rangements 120 cm',
-
-  },
-  {
-    title: 'Nova',
-    image: require('../../images/boutique2.png'),
-    dimension: 'Meuble TV moderne 180 cm',
-
-  },
-
-  {
-    title: 'Nova',
-    image: require('../../images/boutique3.png'),
-
-    dimension: 'Meuble TV moderne 180 cm',
-
-
-  },
-  {
-    title: 'Nova',
-    image: require('../../images/boutique5.png'),
-    dimension: 'Meuble TV moderne 180 cm',
-
-
-  },
-
-  //cuisine
-  {
-    title: 'cuisine',
-    image: require('../../images/cuisine1.png'),
-    dimension: 'Meuble TV avec rangements 120 cm',
-
-  },
-  {
-    title: 'Nova',
-    image: require('../../images/cuisine4.png'),
-    dimension: 'Meuble TV moderne 180 cm',
-
-  },
-
-  {
-    title: 'Nova',
-    image: require('../../images/cuisine81.png'),
-
-    dimension: 'Meuble TV moderne 180 cm',
-
-
-  },
-  {
-    title: 'Nova',
-    image: require('../../images/boutique5.png'),
-    dimension: 'Meuble TV moderne 180 cm',
-
-
-  },
-];
-
-
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -187,28 +59,28 @@ const Produits = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
-  let { id } = useParams();
+  const { id } = useParams(); // ID de la catégorie sélectionnée
+  const containerRef = useRef(null);
+
+  const [selectedCategoryName, setSelectedCategoryName] = useState("Nos Produits");// pour changer le nom de categorie existant 
+
+  const { getAllCategories, categories } = useGetAllCategories();
+  const { getAllProducts, products } = useGetAllProducts();
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const {
-    getAllCategories,
-    categories
-  } = useGetAllCategories();
-  const { getAllProducts,
-    products } = useGetAllProducts();
   const handleToggle = (value) => () => {
     handleClose();
     setTimeout(() => {
       navigate(`/produit/${value}`);
-    }, 300)
-
+    }, 300);
   };
-  const containerRef = useRef(null);
 
   useEffect(() => {
     if (containerRef.current) {
@@ -227,92 +99,117 @@ const Produits = () => {
   }, []);
 
   useEffect(() => {
-    getAllProducts(id)
-  }, [id])
+    getAllProducts(id);
+  }, [id]);
 
-  return (<>
-    <HeaderCategory  withoutTitle/>
- <Container sx={{ paddingTop: 5, paddingBottom: 5 }}>
-      <Grid container spacing={2} sx={{ padding: '20px' }}>
-        <Grid item xs={12} sx={{
-          padding: '60px !important',
-          font: '700 3.5rem/4.5rem "Inter",sans-serif', textAlign: 'center', margin: '20px'
-        }}>
-          {category.title}
-        </Grid>
-        <Grid item xs={12} sx={{ padding: '20px' }}>
-          <Divider sx={{ width: '100%' }} />
-        </Grid>
+  useEffect(() => {
+    const found = categories.find((cat) => String(cat.id) === String(id));
+    if (found) {
+      setSelectedCategoryName(found.name);//
+    } else {
+      setSelectedCategoryName("Nos Produits");//
+    }
+  }, [categories, id]);
 
-        <Grid container spacing={2} sx={{
-          padding: '20px', alignItems: 'center'
-
-        }}>
-          <Grid xs={'auto'} sx={{ color: '#103a3a', opacity: 0.8 }}>
-            Filtre:
+  return (
+    <>
+      <HeaderCategory withoutTitle />
+      <Container sx={{ paddingTop: 5, paddingBottom: 5 }}>
+        <Grid container spacing={2} sx={{ padding: '20px' }}>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              padding: '60px !important',
+              font: '700 3.5rem/4.5rem "Inter",sans-serif',
+              textAlign: 'center',
+              margin: '20px',
+            }}
+          >
+            {selectedCategoryName}
           </Grid>
-          <Grid xs={'auto'} >
-            <div>
-              <Button
-                id="demo-customized-button"
-                aria-controls={open ? 'demo-customized-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                variant="text"
-                sx={{
-                  color: '#103a3a',
-                  backgroundColor: 'transparent',
-                  textTransform: 'none',
-                  '&:hover': {
-                    backgroundColor: 'transparent',
-                    textDecoration: 'underline',
-                  },
-                }}
-                disableElevation
-                onClick={handleClick}
-                endIcon={<KeyboardArrowDownIcon />}
-              >
-                Catégorie
-              </Button>
-              <StyledMenu
-                id="demo-customized-menu"
-                MenuListProps={{
-                  'aria-labelledby': 'demo-customized-button',
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-              >
-                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                  {categories.map((value) => {
 
-                    return (
-                      <ListItem
-                        key={value.id}
-                        disablePadding
-                      >
-                        <ListItemButton role={undefined} onClick={handleToggle(value.id)} dense>
+          <Grid item xs={12} sx={{ padding: '20px' }}>
+            <Divider sx={{ width: '100%' }} />
+          </Grid>
+
+          <Grid
+            container
+            spacing={2}
+            sx={{ padding: '20px', alignItems: 'center' }}
+          >
+            <Grid xs={'auto'} sx={{ color: '#103a3a', opacity: 0.8 }}>
+              Filtre:
+            </Grid>
+            <Grid xs={'auto'}>
+              <div>
+                <Button
+                  id="demo-customized-button"
+                  aria-controls={open ? 'demo-customized-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  variant="text"
+                  sx={{
+                    color: '#103a3a',
+                    backgroundColor: 'transparent',
+                    textTransform: 'none',
+                    '&:hover': {
+                      backgroundColor: 'transparent',
+                      textDecoration: 'underline',
+                    },
+                  }}
+                  disableElevation
+                  onClick={handleClick}
+                  endIcon={<KeyboardArrowDownIcon />}
+                >
+                  Catégorie
+                </Button>
+                <StyledMenu
+                  id="demo-customized-menu"
+                  MenuListProps={{
+                    'aria-labelledby': 'demo-customized-button',
+                  }}
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                >
+                  <List
+                    sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+                  >
+                    {categories.map((value) => (
+                      <ListItem key={value.id} disablePadding>
+                        <ListItemButton
+                          role={undefined}
+                          onClick={handleToggle(value.id)}
+                          dense
+                        >
                           <ListItemText id={value.id} primary={value.name} />
                         </ListItemButton>
                       </ListItem>
-                    );
-                  })}
-                </List>
-              </StyledMenu>
-            </div>
+                    ))}
+                  </List>
+                </StyledMenu>
+              </div>
+            </Grid>
           </Grid>
+
+          {products.map((product, index) => (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              lg={3}
+              key={product.id || index}
+              className="reveal-card"
+            >
+              <ArticleCard {...product} />
+            </Grid>
+          ))}
         </Grid>
-
-
-        {products.map((category, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={category.id || index} className="reveal-card">
-            <ArticleCard {...category} />
-          </Grid>
-        ))}
-
-      </Grid>
-    </Container>
-  </>)
-}
+      </Container>
+    </>
+  );
+};
 
 export default memo(Produits);

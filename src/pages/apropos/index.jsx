@@ -25,12 +25,8 @@ function importAll(r) {
 
 const imageModules = importAll(require.context('../../images', false, /\.(png|jpe?g|svg)$/));
 
-// Liste des collaborateurs (sans doublon)
-const collaborators = [
-  { file: 'henniCollection.jpg', name: 'Henni Collection' },
-  { file: 'mall sfax.jpg', name: 'Mall Sfax' },
-  { file: 'nouveauPartenaire.png', name: 'Partenaire Tunisie' },
-];
+
+
 
 const Apropos = () => {
   const {language}=useAuth()

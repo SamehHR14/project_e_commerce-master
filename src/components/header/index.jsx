@@ -172,7 +172,7 @@ function DrawerAppBar(props) {
 
           {/* SÉLECTEUR DE LANGUE : Positionné après les liens de navigation, toujours visible. */}
           {/* Sa marge gauche (ml:2) est définie dans LanguageSelector.jsx, ce qui permet un espacement cohérent avec l'icône de paramètres. */}
-          <LanguageSelector />
+          {/*<LanguageSelector />*/}
 
           {/* Section d'administration : visible uniquement si l'utilisateur est authentifié */}
           {isAuth && (

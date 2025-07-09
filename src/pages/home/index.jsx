@@ -1,37 +1,12 @@
 import { Box, Typography, Container, Grid, Button, IconButton } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import { memo, useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-
-// Traduction
-import { useTranslation } from 'react-i18next';
-
-// Images
+import HeaderCategory from 'components/swiperSlide/headerCategory';
 import { Edit } from '@mui/icons-material';
 import { useAuth } from 'context/AuthContext';
 import { useGetAllCategories } from 'services/hooks/category';
+import { useTranslation } from 'react-i18next';
 
-const bannerImage = "/assets/home.webp"; // Vérifie ce chemin
-
-const FullWidthBanner = styled(Box)(({ theme }) => ({
-  width: '100%',
-  height: '76vh',
-  backgroundImage: `url(${bannerImage})`,
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '#fff',
-  textAlign: 'center',
-  position: 'relative',
-  [theme.breakpoints.down('sm')]: {
-    height: '50vh',
-    padding: '0 1rem',
-  },
-}));
-
-// Extraire CustomCategory hors du composant principal pour éviter redéclaration à chaque render
 const CustomCategory = memo(({ product, isAuth, navigate, t }) => {
   const [show, setShow] = useState(false);
 
@@ -148,7 +123,7 @@ const CustomCategory = memo(({ product, isAuth, navigate, t }) => {
               },
             }}
             onClick={(e) => {
-              e.stopPropagation(); // éviter que le click déclenche aussi onClick du parent
+              e.stopPropagation();
               navigate(`/produit${product.id ? `/${product.id}` : ''}`);
             }}
           >
@@ -164,7 +139,6 @@ const HomePages = () => {
   const { isAuth } = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
-
   const { getAllCategories, categories } = useGetAllCategories();
 
   useEffect(() => {
@@ -173,27 +147,52 @@ const HomePages = () => {
 
   return (
     <Box>
-      <FullWidthBanner>
-        <Box sx={{ backgroundColor: 'rgba(0,0,0,0.5)', p: 4, borderRadius: 2 }}>
-          <Typography variant="h2" sx={{ fontWeight: 'bold', fontSize: { xs: '2rem', md: '3.5rem' }, mb: 2 }}>
-            {t('home.welcomeMessage')}
-          </Typography>
-          <Typography variant="h6" sx={{ fontStyle: 'italic', fontSize: { xs: '1rem', md: '1.25rem' } }}>
-            {t('home.slogan')}
-          </Typography>
-          <Button
-            variant="contained"
-            size="large"
-            sx={{ mt: 3 }}
-            component={RouterLink}
-            to="/contact"
-            color="warning"
-          >
-            {t('home.contactUs')}
-          </Button>
-        </Box>
-      </FullWidthBanner>
+      {/* Composant d'en-tête */}
+      <HeaderCategory withoutTitle />
 
+      {/* Nouveau bloc image + texte d'accueil */}
+      <Container maxWidth="lg" sx={{ py: 8 }}>
+        <Grid container spacing={4} alignItems="center">
+          {/* Image à gauche */}
+          <Grid item xs={12} md={6}>
+            <Box
+              component="img"
+              src="/assets/home.webp"
+              alt="Accueil NTBM"
+              sx={{
+                width: '100%',
+                borderRadius: 3,
+                maxHeight: 400,
+                objectFit: 'cover',
+                boxShadow: 3,
+              }}
+            />
+          </Grid>
+
+          {/* Texte à droite */}
+          <Grid item xs={12} md={6}>
+            <Box>
+              <Typography variant="h3" fontWeight="bold" gutterBottom sx={{ color: '#4E342E' }}>
+                {t('home.welcomeMessage')}
+              </Typography>
+              <Typography variant="h6" color="text.secondary" sx={{ fontStyle: 'italic', mb: 3 }}>
+                {t('home.slogan')}
+              </Typography>
+              <Button
+                variant="contained"
+                size="large"
+                component={RouterLink}
+                to="/contact"
+                sx={{ backgroundColor: '#4E342E' }}
+              >
+                {t('home.contactUs')}
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
+
+      {/* Liste des catégories */}
       <Container sx={{ py: 8 }}>
         <Typography
           variant="h5"
