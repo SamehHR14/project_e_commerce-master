@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react';
 import {
-  Box, Typography, Container, Grid, Card, CardMedia, CardContent, Button, Divider
+  Box,
+  Typography,
+  Container,
+  Grid,
+  Divider,
 } from '@mui/material';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useGetProductById } from 'services/hooks/products';
 import { SwiperCoverflowMemo } from 'components/swiperSlide/images';
 import ArticleCard from 'components/articleCard';
 
 const ProduitDetail = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { getProduct, product } = useGetProductById();
 
   useEffect(() => {
@@ -17,7 +20,11 @@ const ProduitDetail = () => {
   }, [id]);
 
   if (!product?.id) {
-    return <Typography variant="h6" sx={{ mt: 4 }}>Aucun produit sélectionné.</Typography>;
+    return (
+      <Typography variant="h6" sx={{ mt: 4 }}>
+        Aucun produit sélectionné.
+      </Typography>
+    );
   }
 
   return (
@@ -36,14 +43,16 @@ const ProduitDetail = () => {
             {product.shortDescription}
           </Typography>
 
-          {/* Price or other feature (optional) */}
           {product?.price && (
-            <Typography variant="h5" fontWeight={600} color="primary" sx={{ my: 2 }}>
+            <Typography
+              variant="h5"
+              fontWeight={600}
+              color="primary"
+              sx={{ my: 2 }}
+            >
               {product.price} TND
             </Typography>
           )}
-
- 
         </Grid>
       </Grid>
 
@@ -61,16 +70,21 @@ const ProduitDetail = () => {
         </Box>
       )}
 
-      {/* Similar Products */}
+      {/* Produits Similaires */}
       {product?.similarProducts?.length > 0 && (
         <Box sx={{ mt: 6 }}>
-          <Typography variant="h5" fontWeight={600} gutterBottom>
+          <Typography
+            variant="h5"
+            fontWeight={600}
+            gutterBottom
+            sx={{ color: '#db7958ff' }} // ✅ Couleur personnalisée
+          >
             Produits similaires
           </Typography>
           <Grid container spacing={3}>
             {product.similarProducts.map((similarProduct, idx) => (
               <Grid item xs={12} sm={6} md={3} key={idx}>
-             <ArticleCard {...similarProduct} />
+                <ArticleCard {...similarProduct} />
               </Grid>
             ))}
           </Grid>

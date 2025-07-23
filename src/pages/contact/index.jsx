@@ -6,6 +6,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import HeaderCategory from 'components/swiperSlide/headerCategory';
 import { useTranslation } from 'react-i18next';
+import { useSendEmail } from 'services/hooks/contact';
 
 const bannerImage = "/assets/home2.jpg";
 const contactImage = "/assets/contact-side-image.jpg";
@@ -68,7 +69,7 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 }));
 
 const StyledButton = styled(Button)(({ theme }) => ({
-  backgroundColor: '#caac71',
+  backgroundColor: '#db7958ff',
   color: '#fff',
   textTransform: 'uppercase',
   padding: '12px 30px',
@@ -88,6 +89,8 @@ const ContactPages = () => {
     subject: '',
     message: '',
   });
+
+ const {SendEmail,result}= useSendEmail()
   const [errors, setErrors] = useState({});
   const [submitStatus, setSubmitStatus] = useState(null);
 
@@ -112,18 +115,22 @@ const ContactPages = () => {
     return tempErrors;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const validationErrors = validateForm();
-    if (Object.keys(validationErrors).length === 0) {
-      console.log('Form submitted:', formData);
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  const validationErrors = validateForm();
+  if (Object.keys(validationErrors).length === 0) {
+    try {
+      await SendEmail(formData); // 👈 bien attendre que ça se finisse
       setSubmitStatus('Message envoyé avec succès!');
       setFormData({ name: '', email: '', subject: '', message: '' });
-    } else {
-      setErrors(validationErrors);
-      setSubmitStatus('Veuillez corriger les erreurs.');
+    } catch (err) {
+      setSubmitStatus('Une erreur est survenue. Veuillez réessayer.');
     }
-  };
+  } else {
+    setErrors(validationErrors);
+    setSubmitStatus('Veuillez corriger les erreurs.');
+  }
+};
 
   return (
     <Box>
@@ -181,7 +188,7 @@ const ContactPages = () => {
         variant="h5"
         sx={{
           mb: 4,
-          color: '#000',
+          color: '#db7958ff',
           fontWeight: 'bold',
           fontSize: '2rem',
           textAlign: 'center'
@@ -243,7 +250,7 @@ const ContactPages = () => {
       {/* BOUTON CENTRÉ */}
       <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
         <StyledButton type="submit">
-          SOUMETTRE
+          Envoyer
         </StyledButton>
       </Box>
 

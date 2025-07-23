@@ -137,4 +137,56 @@ export const useDeleteCategoryImage = () => {
   return {
     deleteCategoryImage,
   };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+};
+
+export const useDeleteCategory = () => {
+  const { setLoading } = useLoadingContext();
+  const { onSuccess, onError } = useHandlerErrors();
+
+  const deleteCategory = async (id) => {
+    try {
+      setLoading((old) => old + 1);
+
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/categories/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.ok) {
+        onSuccess("Catégorie supprimée avec succès");
+        return await response.json();
+      } else {
+        const errorData = await response.json();
+        onError(typeof errorData === 'string' ? errorData : errorData.message || 'Échec de la suppression');
+        throw new Error(errorData.message || 'Erreur lors de la suppression de la catégorie');
+      }
+    } catch (error) {
+      onError(typeof error === 'string' ? error : error.message || 'Échec de la suppression');
+      throw error;
+    } finally {
+      setLoading((old) => old - 1);
+    }
+  };
+
+  return {
+    deleteCategory,
+  };
 };

@@ -183,7 +183,7 @@ const HomePages = () => {
                 size="large"
                 component={RouterLink}
                 to="/contact"
-                sx={{ backgroundColor: '#4E342E' }}
+                sx={{ backgroundColor: '#db7958ff' }}
               >
                 {t('home.contactUs')}
               </Button>
