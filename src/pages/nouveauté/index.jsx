@@ -34,6 +34,7 @@ getLastAllProducts();
           fontWeight={700}
           textAlign="center"
           gutterBottom
+           sx={{ color: '#db7958ff' }}
         >
           Nouveautés
         </Typography>

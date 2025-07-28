@@ -199,7 +199,7 @@ const HomePages = () => {
           sx={{
             mb: 2,
             textAlign: 'center',
-            color: '#000',
+            color: '#db7958ff',
             fontSize: '1.75rem',
             fontWeight: 700,
             fontStyle: 'italic',

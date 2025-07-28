@@ -189,7 +189,7 @@ const Apropos = () => {
 
         {/* CTA final */}
         <Box textAlign="center" mt={10}>
-          <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ color: '#db7958ff' }}>
+          <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ color: '#8b4513' }}>
             {getTranslation(language, "vousavezunprojet")}
           </Typography>
           <Typography variant="body1" color="text.secondary" mb={2}>
